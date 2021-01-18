@@ -1,0 +1,6 @@
+.header {
+  background-color: var(--accent);
+  font-size: 32px;
+  letter-spacing: 2;
+  text-align: center;
+}
