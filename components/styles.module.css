@@ -3,6 +3,8 @@
   border: 2px solid var(--accent);
   border-radius: 4px;
   color: var(--accent);
+  font-size: 14px;
+  font-weight: 300;
   padding: 16px;
   transition: background-color 160ms ease-in, color 160ms ease-in;
 }
@@ -21,17 +23,34 @@
 }
 .input {
   background-color: var(--input-background);
-  border: none;
+  border: 1px solid var(--input-background);
   border-radius: 4px;
   color: var(--app-text);
   margin-bottom: 8px;
   padding: 16px;
-  transition: background-color 160ms ease-in;
+  transition: background-color 160ms ease-in, border 160ms ease-in;
 }
 .input:disabled {
   background-color: var(--input-background-disabled);
-  transition: background-color 160ms ease-in;
+  border: 1px solid var(--input-background-disabled);
+  transition: background-color 160ms ease-in, border 160ms ease-in;
 }
-.button:focus, .input:focus {
+.inputError {
+  border: 1px solid var(--error);
+  transition: border 160ms ease-in;
+}
+.linkButton {
+  background-color: var(--app-background);
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 160ms ease-in;
+}
+.linkButton:disabled {
+  color: var(--accent-muted);
+  cursor: default;
+  transition: color 160ms ease-in;
+}
+.button:focus, .input:focus, .linkButton:focus {
   outline: none;
 }

@@ -12,6 +12,12 @@
   margin-bottom: 16px;
   text-align: center;
 }
+.errorContainer {
+  color: var(--error);
+  height: 20px;
+  margin: 8px 0 16px 0;
+  text-align: center;
+}
 .link {
   color: var(--accent);
   margin-top: 16px;

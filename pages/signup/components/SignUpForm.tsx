@@ -1,37 +1,36 @@
 import React from 'react';
 
+import { Errors } from '../types';
+import styles from '../SignUp.module.css';
+
 import StyledButton from '../../../components/StyledButton';
 import StyledInput from '../../../components/StyledInput';
 
 interface SignUpFormProps {
   email: string;
+  errors: Errors;
   firstName: string;
+  formError: string;
+  handleInput: (name: string, value: string) => void;
   handleSubmit: (event: React.FormEvent) => Promise<void>
   lastName: string;
   loading: boolean;
   password: string;
   passwordConfirmation: string;
-  setEmail: (value: string) => void;
-  setFirstName: (value: string) => void;
-  setLastName: (value: string) => void;
-  setPassword: (value: string) => void;
-  setPasswordConfirmation: (value: string) => void;
 }
 
 export default function SignUpForm(props: SignUpFormProps) {
   const {
     email,
+    errors,
     firstName,
+    formError,
+    handleInput,
     handleSubmit,
     lastName,
     loading,
     password,
     passwordConfirmation,
-    setEmail,
-    setFirstName,
-    setLastName,
-    setPassword,
-    setPasswordConfirmation,
   } = props;
 
   return (
@@ -41,46 +40,53 @@ export default function SignUpForm(props: SignUpFormProps) {
     >
       <StyledInput
         disabled={loading}
-        name="first-name"
-        onChange={setFirstName}
+        error={errors.firstName}
+        name="firstName"
+        onChange={handleInput}
         placeholder="First name"
         type="text"
         value={firstName}
       />
       <StyledInput
         disabled={loading}
-        name="last-name"
-        onChange={setLastName}
+        error={errors.lastName}
+        name="lastName"
+        onChange={handleInput}
         placeholder="Last name"
         type="text"
         value={lastName}
       />
       <StyledInput
         disabled={loading}
+        error={errors.email}
         name="email"
-        onChange={setEmail}
+        onChange={handleInput}
         placeholder="Email"
         type="email"
         value={email}
       />
       <StyledInput
         disabled={loading}
+        error={errors.password}
         name="password"
-        onChange={setPassword}
+        onChange={handleInput}
         placeholder="Password"
         type="password"
         value={password}
       />
       <StyledInput
         disabled={loading}
-        name="password-confirm"
-        onChange={setPasswordConfirmation}
+        error={errors.passwordConfirmation}
+        name="passwordConfirmation"
+        onChange={handleInput}
         placeholder="Password confirmation"
         type="password"
         value={passwordConfirmation}
       />
+      <div className={`${styles.errorContainer} noselect`}>
+        { formError }
+      </div>
       <StyledButton
-        classes={['mt-16']}
         disabled={loading}
         isSubmit
         text="SUBMIT"

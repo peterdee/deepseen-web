@@ -2,40 +2,37 @@ import React, { memo } from 'react';
 
 import styles from './styles.module.css';
 
-interface StyledButtonProps {
+interface LinkButtonProps {
   classes?: string[];
   disabled?: boolean;
-  isSubmit?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any,
   text: string;
 }
 
-function StyledButton(props: StyledButtonProps): React.ReactElement {
+function LinkButton(props: LinkButtonProps): React.ReactElement {
   const {
     classes,
     disabled,
-    isSubmit,
     onClick,
     text,
   } = props;
 
   return (
     <button
-      className={`${styles.button} ${classes.join(' ')} noselect`}
+      className={`${styles.linkButton} ${classes.join(' ')} noselect`}
       disabled={disabled}
       onClick={onClick}
-      type={isSubmit ? 'submit' : 'button'}
+      type="button"
     >
       { text }
     </button>
   );
 }
 
-StyledButton.defaultProps = {
+LinkButton.defaultProps = {
   classes: [],
   disabled: false,
-  isSubmit: false,
   onClick: () => null,
 };
 
-export default memo(StyledButton);
+export default memo(LinkButton);

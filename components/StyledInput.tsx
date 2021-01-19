@@ -3,9 +3,10 @@ import React, { memo } from 'react';
 import styles from './styles.module.css';
 
 interface StyledInputProps {
-  disabled: boolean;
+  disabled?: boolean;
+  error?: boolean;
   name: string;
-  onChange: (string: string) => void,
+  onChange: (value: string, name?: string) => void,
   placeholder?: string;
   type: string;
   value: string;
@@ -14,23 +15,22 @@ interface StyledInputProps {
 function StyledInput(props: StyledInputProps): React.ReactElement {
   const {
     disabled,
+    error,
     name,
     onChange,
-    placeholder = '',
+    placeholder,
     type,
     value,
   } = props;
 
-  const handleInput = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => onChange(event.target.value);
-
   return (
     <input
-      className={styles.input}
+      className={`${styles.input} ${error ? styles.inputError : ''}`}
       disabled={disabled}
       name={name}
-      onChange={handleInput}
+      onChange={(
+        event: React.ChangeEvent<HTMLInputElement>,
+      ) => onChange(event.target.value, event.target.name)}
       placeholder={placeholder}
       type={type}
       value={value}
@@ -39,6 +39,8 @@ function StyledInput(props: StyledInputProps): React.ReactElement {
 }
 
 StyledInput.defaultProps = {
+  disabled: false,
+  error: false,
   placeholder: '',
 };
 
