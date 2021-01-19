@@ -6,7 +6,9 @@ import StyledInput from '../../../components/StyledInput';
 interface SignUpFormProps {
   email: string;
   firstName: string;
+  handleSubmit: (event: React.FormEvent) => Promise<void>
   lastName: string;
+  loading: boolean;
   password: string;
   passwordConfirmation: string;
   setEmail: (value: string) => void;
@@ -20,7 +22,9 @@ export default function SignUpForm(props: SignUpFormProps) {
   const {
     email,
     firstName,
+    handleSubmit,
     lastName,
+    loading,
     password,
     passwordConfirmation,
     setEmail,
@@ -31,8 +35,12 @@ export default function SignUpForm(props: SignUpFormProps) {
   } = props;
 
   return (
-    <form className="col">
+    <form
+      className="col"
+      onSubmit={handleSubmit}
+    >
       <StyledInput
+        disabled={loading}
         name="first-name"
         onChange={setFirstName}
         placeholder="First name"
@@ -40,6 +48,7 @@ export default function SignUpForm(props: SignUpFormProps) {
         value={firstName}
       />
       <StyledInput
+        disabled={loading}
         name="last-name"
         onChange={setLastName}
         placeholder="Last name"
@@ -47,6 +56,7 @@ export default function SignUpForm(props: SignUpFormProps) {
         value={lastName}
       />
       <StyledInput
+        disabled={loading}
         name="email"
         onChange={setEmail}
         placeholder="Email"
@@ -54,6 +64,7 @@ export default function SignUpForm(props: SignUpFormProps) {
         value={email}
       />
       <StyledInput
+        disabled={loading}
         name="password"
         onChange={setPassword}
         placeholder="Password"
@@ -61,6 +72,7 @@ export default function SignUpForm(props: SignUpFormProps) {
         value={password}
       />
       <StyledInput
+        disabled={loading}
         name="password-confirm"
         onChange={setPasswordConfirmation}
         placeholder="Password confirmation"
@@ -68,6 +80,8 @@ export default function SignUpForm(props: SignUpFormProps) {
         value={passwordConfirmation}
       />
       <StyledButton
+        classes={['mt-16']}
+        disabled={loading}
         isSubmit
         text="SUBMIT"
       />

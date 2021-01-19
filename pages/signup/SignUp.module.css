@@ -5,18 +5,15 @@
   width: 400px;
 }
 .header {
-  background: linear-gradient(
-    290deg,
-    var(--accent-highlight) 40%,
-    var(--accent) 60%,
-    var(--accent-muted)
-  );
-  background-clip: text;
   color: var(--accent);
   font-size: 32px;
   font-weight: bold;
   letter-spacing: 4px;
+  margin-bottom: 16px;
   text-align: center;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+}
+.link {
+  color: var(--accent);
+  margin-top: 16px;
+  text-align: center;
 }

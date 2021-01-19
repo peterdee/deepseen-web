@@ -7,8 +7,14 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+  };
 
   return (
     <div className={`col ${styles.content}`}>
@@ -18,7 +24,9 @@ export default function SignUp() {
       <SignUpForm
         email={email}
         firstName={firstName}
+        handleSubmit={handleSubmit}
         lastName={lastName}
+        loading={loading}
         password={password}
         passwordConfirmation={passwordConfirmation}
         setEmail={setEmail}
@@ -27,6 +35,18 @@ export default function SignUp() {
         setPassword={setPassword}
         setPasswordConfirmation={setPasswordConfirmation}
       />
+      <a
+        className={styles.link}
+        href="/signin"
+      >
+        Already have an account?
+      </a>
+      <a
+        className={styles.link}
+        href="/"
+      >
+        Back
+      </a>
     </div>
   );
 }
