@@ -1,7 +1,13 @@
 :root {
   --accent: turquoise;
+  --accent-highlight: rgb(173, 255, 247);
+  --accent-muted: teal;
   --app-background: black;
   --app-text: white;
+  --footer-height: 48px;
+  --input-background: #343434;
+  --input-background-disabled: #121212;
+  --row-width: 1024px;
 }
 
 * {
@@ -12,17 +18,40 @@
   padding: 0;
 }
 
+html, body {
+  background-color: var(--app-background);
+  color: var(--app-text);
+}
+
+footer {
+  background-color: var(--app-background);
+  height: var(--footer-height);
+}
+
 .container {
   background-color: var(--app-background);
   display: flex;
-  flex-direction: row;
-  min-height: calc(100vh - 48px);
+  flex-direction: column;
+  min-height: calc(100vh - var(--footer-height));
+  justify-content: flex-start;
+  width: 100%;
+}
+.col {
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   width: 100%;
 }
 .row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

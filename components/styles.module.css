@@ -1,0 +1,8 @@
+.button {
+  border: none;
+}
+.input {
+  background-color: var(--input-background);
+  border: none;
+  padding: 16px;
+}

@@ -21,7 +21,17 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error"
+    ],
     "@typescript-eslint/no-use-before-define": ["error"],
+    "max-len": [
+      "error",
+      {
+        "code": 100
+      }
+    ],
+    "no-unused-vars": "off",
     "no-use-before-define": "off",
     "react/jsx-filename-extension": [
       1,

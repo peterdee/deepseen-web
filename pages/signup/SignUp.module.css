@@ -1,6 +1,22 @@
+.content {
+  flex: 1;
+  justify-content: center;
+  margin: 0 auto;
+  width: 400px;
+}
 .header {
-  background-color: var(--accent);
+  background: linear-gradient(
+    290deg,
+    var(--accent-highlight) 40%,
+    var(--accent) 60%,
+    var(--accent-muted)
+  );
+  background-clip: text;
+  color: var(--accent);
   font-size: 32px;
-  letter-spacing: 2;
+  font-weight: bold;
+  letter-spacing: 4px;
   text-align: center;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
