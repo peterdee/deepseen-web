@@ -12,7 +12,7 @@ interface SignUpFormProps {
   firstName: string;
   formError: string;
   handleInput: (name: string, value: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<void>
+  handleSubmit: (event: React.FormEvent) => Promise<any>
   lastName: string;
   loading: boolean;
   password: string;

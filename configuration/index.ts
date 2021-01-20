@@ -9,3 +9,11 @@ export const CLIENT_TYPES = {
 };
 
 export const CLIENT_TYPE = CLIENT_TYPES.web;
+
+export const RESPONSE_MESSAGES = {
+  accessDenied: 'ACCESS_DENIED',
+  emailAlreadyInUse: 'EMAIL_ALREADY_IN_USE',
+  internalServerError: 'INTERNAL_SERVER_ERROR',
+  invalidData: 'INVALID_DATA',
+  missingData: 'MISSING_DATA',
+};

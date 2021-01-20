@@ -2,15 +2,26 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL, CLIENT_TYPE } from '../../configuration';
-import { Errors } from './types';
+import {
+  BACKEND_URL,
+  CLIENT_TYPE,
+  RESPONSE_MESSAGES,
+} from '../../configuration';
+import { Data, Errors } from './types';
 import styles from './SignUp.module.css';
 
 import LinkButton from '../../components/LinkButton';
+import Loader from '../../components/Loader';
 import SignUpForm from './components/SignUpForm';
 
 export default function SignUp() {
-  const [email, setEmail] = useState<string>('');
+  const [data, setData] = useState<Data>({
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    passwordConfirmation: '',
+  });
   const [errors, setErrors] = useState<Errors>({
     email: false,
     firstName: false,
@@ -18,52 +29,37 @@ export default function SignUp() {
     password: false,
     passwordConfirmation: false,
   });
-  const [firstName, setFirstName] = useState<string>('');
   const [formError, setFormError] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [password, setPassword] = useState<string>('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
   const router = useRouter();
+
+  // TODO: redirect to the Home page if token is present
 
   const handleBackButton = () => router.push('/');
   const handleHaveAccountButton = () => router.push('/signin');
 
   const handleInput = (value: string, name: string): void => {
+    setData((state) => ({
+      ...state,
+      [name]: value,
+    }));
     setErrors((state) => ({
       ...state,
       [name]: false,
     }));
     setFormError('');
-    switch (name) {
-      case 'email': {
-        return setEmail(value);
-      }
-      case 'firstName': {
-        return setFirstName(value);
-      }
-      case 'lastName': {
-        return setLastName(value);
-      }
-      case 'password': {
-        return setPassword(value);
-      }
-      default: {
-        return setPasswordConfirmation(value);
-      }
-    }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent): Promise<any> => {
     event.preventDefault();
 
     const trimmed = {
-      email: email.trim(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      password: password.trim(),
-      passwordConfirmation: passwordConfirmation.trim(),
+      email: data.email.trim(),
+      firstName: data.firstName.trim(),
+      lastName: data.lastName.trim(),
+      password: data.password.trim(),
+      passwordConfirmation: data.passwordConfirmation.trim(),
     };
     if (!(trimmed.email && trimmed.firstName && trimmed.lastName
       && trimmed.password && trimmed.passwordConfirmation)) {
@@ -103,43 +99,73 @@ export default function SignUp() {
         method: 'POST',
         url: `${BACKEND_URL}/api/auth/signup`,
       });
-      console.log(response);
-      return setLoading(false);
+
+      setLoading(false);
+      const { data: { data: responseData = {} } = {} } = response;
+      if (!(responseData.token && responseData.user)) {
+        return setFormError('Oops! Something went wrong!');
+      }
+
+      // TODO: save data to the Redux store
+
+      return router.push('/home');
     } catch (error) {
-      console.log(error);
-      return setLoading(false);
+      setLoading(false);
+      const { response: { data: errorData = {} } = {} } = error;
+      if (errorData.info && errorData.status) {
+        const { info, status } = errorData;
+        if (info === RESPONSE_MESSAGES.emailAlreadyInUse && status === 400) {
+          setErrors((state) => ({
+            ...state,
+            email: true,
+          }));
+          return setFormError('Email address is already in use!');
+        }
+        if (info === RESPONSE_MESSAGES.invalidData && status === 400) {
+          return setFormError('Provided data is invalid!');
+        }
+        if (info === RESPONSE_MESSAGES.missingData && status === 400) {
+          return setFormError('Missing required data!');
+        }
+      }
+      return setFormError('Oops! Something went wrong!');
     }
   };
 
   return (
-    <div className={`col ${styles.content}`}>
-      <div className={`${styles.header} noselect`}>
-        SIGN UP
+    <>
+      { loading && (
+        <Loader />
+      ) }
+      <div className={`col ${styles.content}`}>
+        <div className={`${styles.header} noselect`}>
+          SIGN UP
+        </div>
+        <SignUpForm
+          email={data.email}
+          errors={errors}
+          firstName={data.firstName}
+          formError={formError}
+          handleInput={handleInput}
+          handleSubmit={handleSubmit}
+          lastName={data.lastName}
+          loading={loading}
+          password={data.password}
+          passwordConfirmation={data.passwordConfirmation}
+        />
+        <LinkButton
+          classes={['mt-16']}
+          disabled={loading}
+          onClick={handleHaveAccountButton}
+          text="Already have an account?"
+        />
+        <LinkButton
+          classes={['mt-16']}
+          disabled={loading}
+          onClick={handleBackButton}
+          text="Back"
+        />
       </div>
-      <SignUpForm
-        email={email}
-        errors={errors}
-        firstName={firstName}
-        formError={formError}
-        handleInput={handleInput}
-        handleSubmit={handleSubmit}
-        lastName={lastName}
-        loading={loading}
-        password={password}
-        passwordConfirmation={passwordConfirmation}
-      />
-      <LinkButton
-        classes={['mt-16']}
-        disabled={loading}
-        onClick={handleHaveAccountButton}
-        text="Already have an account?"
-      />
-      <LinkButton
-        classes={['mt-16']}
-        disabled={loading}
-        onClick={handleBackButton}
-        text="Back"
-      />
-    </div>
+    </>
   );
 }
