@@ -21,6 +21,15 @@
   cursor: default;
   transition: background-color 160ms ease-in, border 160ms ease-in, color 160ms ease-in;
 }
+.footer {
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  font-weight: 200;
+  height: var(--footer-height);
+  justify-content: center;
+  width: 100%;
+}
 .input {
   background-color: var(--input-background);
   border: 1px solid var(--input-background);
@@ -54,7 +63,6 @@
 .button:focus, .input:focus, .linkButton:focus {
   outline: none;
 }
-
 
 /* Loader */
 .background {

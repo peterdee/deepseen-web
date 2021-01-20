@@ -22,13 +22,7 @@
 
 html, body {
   background-color: var(--app-background);
-  color: var(--app-text-dark);
-}
-
-footer {
-  background-color: var(--app-background);
   color: var(--app-text);
-  height: var(--footer-height);
 }
 
 .container {
