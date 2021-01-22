@@ -11,21 +11,15 @@ function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className="row">
         <a href="/signup">
           Sign up
         </a>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Footer
+        <span className="ml-16 mr-16">|</span>
+        <a href="/signin">
+          Sign in
         </a>
-      </footer>
+      </main>
     </div>
   );
 }

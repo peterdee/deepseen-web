@@ -25,6 +25,10 @@ html, body {
   color: var(--app-text);
 }
 
+a, a:visited {
+  color: var(--accent);
+}
+
 .container {
   background-color: var(--app-background);
   color: var(--app-text);
@@ -54,6 +58,12 @@ html, body {
   user-select: none;
 }
 
+.ml-16 {
+  margin-left: 16px;
+}
+.mr-16 {
+  margin-right: 16px;
+}
 .mt-16 {
   margin-top: 16px;
 }

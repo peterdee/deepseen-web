@@ -22,6 +22,7 @@
   transition: background-color 160ms ease-in, border 160ms ease-in, color 160ms ease-in;
 }
 .footer {
+  align-items: center;
   display: flex;
   flex-direction: row;
   font-size: 12px;
