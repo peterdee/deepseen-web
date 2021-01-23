@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Errors } from '../types';
-import styles from '../SignUp.module.css';
+import styles from '../SignIn.module.css';
 
 import StyledButton from '../../../components/StyledButton';
 import StyledInput from '../../../components/StyledInput';
