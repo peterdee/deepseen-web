@@ -128,6 +128,7 @@ export default function SignUp() {
           return setFormError('Missing required data!');
         }
       }
+
       return setFormError('Oops! Something went wrong!');
     }
   };

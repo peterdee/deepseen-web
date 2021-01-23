@@ -32,6 +32,7 @@ export default function SignIn() {
 
   const handleBackButton = () => router.push('/');
   const handleCreateAccountButton = () => router.push('/signup');
+  const handleForgotPasswordButton = () => router.push('/recovery');
 
   const handleInput = (value: string, name: string): void => {
     setData((state) => ({
@@ -93,20 +94,14 @@ export default function SignIn() {
       const { response: { data: errorData = {} } = {} } = error;
       if (errorData.info && errorData.status) {
         const { info, status } = errorData;
-        if (info === RESPONSE_MESSAGES.emailAlreadyInUse && status === 400) {
-          setErrors((state) => ({
-            ...state,
-            email: true,
-          }));
-          return setFormError('Email address is already in use!');
-        }
-        if (info === RESPONSE_MESSAGES.invalidData && status === 400) {
-          return setFormError('Provided data is invalid!');
-        }
         if (info === RESPONSE_MESSAGES.missingData && status === 400) {
           return setFormError('Missing required data!');
         }
+        if (info === RESPONSE_MESSAGES.accessDenied && status === 401) {
+          return setFormError('Access denied!');
+        }
       }
+
       return setFormError('Oops! Something went wrong!');
     }
   };
@@ -128,6 +123,12 @@ export default function SignIn() {
           handleSubmit={handleSubmit}
           loading={loading}
           password={data.password}
+        />
+        <LinkButton
+          classes={['mt-16']}
+          disabled={loading}
+          onClick={handleForgotPasswordButton}
+          text="Forgot password?"
         />
         <LinkButton
           classes={['mt-16']}
