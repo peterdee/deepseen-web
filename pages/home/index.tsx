@@ -80,6 +80,18 @@ export default function Home(
         { `Hello ${account.firstName} ${account.lastName}!` }
       </h2>
       <button
+        onClick={() => router.push('/change-password')}
+        type="button"
+      >
+        Change password
+      </button>
+      <button
+        onClick={() => router.push('/update-profile')}
+        type="button"
+      >
+        Update profile
+      </button>
+      <button
         onClick={signOut}
         type="button"
       >
