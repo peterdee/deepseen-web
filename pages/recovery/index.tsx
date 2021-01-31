@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 
 import {
   BACKEND_URL,
-  CLIENT_TYPE,
   COOKIE_NAME,
 } from '../../configuration';
 import styles from './Recovery.module.css';
@@ -15,11 +14,11 @@ import EmailForm from './components/EmailForm';
 import LinkButton from '../../components/LinkButton';
 import Loader from '../../components/Loader';
 
+// TODO: move this part to the separate file
 export const getServerSideProps: GetServerSideProps = (context): any => {
   const cookies = context.req.headers.cookie;
   if (cookies) {
     try {
-      // make sure that token exists
       const parsedCookies = parse(cookies);
       if (parsedCookies && parsedCookies[COOKIE_NAME]) {
         return {
@@ -42,6 +41,7 @@ export const getServerSideProps: GetServerSideProps = (context): any => {
 };
 
 export default function Recovery() {
+  const [linkSent, setLinkSent] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [formError, setFormError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -68,18 +68,14 @@ export default function Recovery() {
     try {
       await axios({
         data: {
-          client: CLIENT_TYPE,
           email: trimmedEmail,
         },
         method: 'POST',
-        url: `${BACKEND_URL}/api/`, // TODO: correct URL
+        url: `${BACKEND_URL}/api/auth/recovery/send`,
       });
 
       setLoading(false);
-
-      // TODO: show a message if everything's fine
-
-      return router.push('/');
+      return setLinkSent(true);
     } catch (error) {
       setLoading(false);
 
@@ -98,13 +94,20 @@ export default function Recovery() {
         <div className={`${styles.header} noselect`}>
           ACCOUNT RECOVERY
         </div>
-        <EmailForm
-          email={email}
-          formError={formError}
-          handleInput={handleInput}
-          handleSubmit={handleSubmit}
-          loading={loading}
-        />
+        { linkSent && (
+          <div>
+            {`Account recovery link sent to ${email}!`}
+          </div>
+        ) }
+        { !linkSent && (
+          <EmailForm
+            email={email}
+            formError={formError}
+            handleInput={handleInput}
+            handleSubmit={handleSubmit}
+            loading={loading}
+          />
+        ) }
         <LinkButton
           classes={['mt-16']}
           disabled={loading}
