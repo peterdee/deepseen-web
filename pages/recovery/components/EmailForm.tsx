@@ -27,11 +27,9 @@ export default function EmailForm(props: SignUpFormProps) {
       className="col"
       onSubmit={handleSubmit}
     >
-      <div>
-        Please provide your email
-      </div>
       <StyledInput
         disabled={loading}
+        error={!!formError}
         name="email"
         onChange={handleInput}
         placeholder="Email"

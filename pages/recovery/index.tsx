@@ -1,44 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
-import { parse } from 'cookie';
 import { useRouter } from 'next/router';
 
-import {
-  BACKEND_URL,
-  COOKIE_NAME,
-} from '../../configuration';
+import { BACKEND_URL } from '../../configuration';
+import getAuthSSP from '../../utilities/get-auth-ssp';
 import styles from './Recovery.module.css';
 
 import EmailForm from './components/EmailForm';
 import LinkButton from '../../components/LinkButton';
 import Loader from '../../components/Loader';
 
-// TODO: move this part to the separate file
-export const getServerSideProps: GetServerSideProps = (context): any => {
-  const cookies = context.req.headers.cookie;
-  if (cookies) {
-    try {
-      const parsedCookies = parse(cookies);
-      if (parsedCookies && parsedCookies[COOKIE_NAME]) {
-        return {
-          redirect: {
-            destination: '/home',
-            permanent: false,
-          },
-        };
-      }
-    } catch {
-      return {
-        props: {},
-      };
-    }
-  }
-
-  return {
-    props: {},
-  };
-};
+export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
 export default function Recovery() {
   const [linkSent, setLinkSent] = useState<boolean>(false);
@@ -79,7 +52,11 @@ export default function Recovery() {
     } catch (error) {
       setLoading(false);
 
-      // TODO: handle error responses
+      const { response: { data = {} } = {} } = error;
+      const { status = null } = data;
+      if (status && status === 401) {
+        return setFormError('Account not found!');
+      }
 
       return setFormError('Oops! Something went wrong!');
     }
@@ -91,22 +68,24 @@ export default function Recovery() {
         <Loader />
       ) }
       <div className={`col ${styles.content}`}>
-        <div className={`${styles.header} noselect`}>
-          ACCOUNT RECOVERY
-        </div>
         { linkSent && (
-          <div>
+          <div className={styles.result}>
             {`Account recovery link sent to ${email}!`}
           </div>
         ) }
         { !linkSent && (
-          <EmailForm
-            email={email}
-            formError={formError}
-            handleInput={handleInput}
-            handleSubmit={handleSubmit}
-            loading={loading}
-          />
+          <>
+            <div className={`${styles.header} noselect`}>
+              ACCOUNT RECOVERY
+            </div>
+            <EmailForm
+              email={email}
+              formError={formError}
+              handleInput={handleInput}
+              handleSubmit={handleSubmit}
+              loading={loading}
+            />
+          </>
         ) }
         <LinkButton
           classes={['mt-16']}
