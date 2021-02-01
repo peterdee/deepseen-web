@@ -1,0 +1,30 @@
+.content {
+  flex: 1;
+  justify-content: center;
+  margin: 0 auto;
+  width: 400px;
+}
+.header {
+  color: var(--accent);
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.errorContainer {
+  color: var(--error);
+  height: 20px;
+  margin: 8px 0 16px 0;
+  text-align: center;
+}
+.link {
+  color: var(--accent);
+  margin-top: 16px;
+  text-align: center;
+}
+.result {
+  color: var(--app-text);
+  font-size: 16px;
+  text-align: center;
+}

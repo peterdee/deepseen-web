@@ -5,15 +5,15 @@ import styles from '../Recovery.module.css';
 import StyledButton from '../../../components/StyledButton';
 import StyledInput from '../../../components/StyledInput';
 
-interface SignUpFormProps {
+interface EmailFormProps {
   email: string;
   formError: string;
-  handleInput: (name: string, value: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<any>
+  handleInput: (value: string) => void;
+  handleSubmit: (event: React.FormEvent) => Promise<any>;
   loading: boolean;
 }
 
-export default function EmailForm(props: SignUpFormProps) {
+export default function EmailForm(props: EmailFormProps) {
   const {
     email,
     formError,

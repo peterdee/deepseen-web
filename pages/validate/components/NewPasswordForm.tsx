@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { DataCollection } from '../types';
-import styles from '../SignUp.module.css';
+import styles from '../Validate.module.css';
 
+import { DataCollection } from '../types';
 import StyledButton from '../../../components/StyledButton';
 import StyledInput from '../../../components/StyledInput';
 
-interface SignUpFormProps {
+interface NewPasswordFormProps {
   data: DataCollection<string>;
   errors: DataCollection<boolean>;
   formError: string;
   handleInput: (value: string, name: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<any>;
+  handleSubmit: (event: React.FormEvent) => Promise<any>
   loading: boolean;
 }
 
-export default function SignUpForm(props: SignUpFormProps) {
+export default function NewPasswordForm(props: NewPasswordFormProps) {
   const {
     data,
     errors,
@@ -30,33 +30,6 @@ export default function SignUpForm(props: SignUpFormProps) {
       className="col"
       onSubmit={handleSubmit}
     >
-      <StyledInput
-        disabled={loading}
-        error={errors.firstName}
-        name="firstName"
-        onChange={handleInput}
-        placeholder="First name"
-        type="text"
-        value={data.firstName}
-      />
-      <StyledInput
-        disabled={loading}
-        error={errors.lastName}
-        name="lastName"
-        onChange={handleInput}
-        placeholder="Last name"
-        type="text"
-        value={data.lastName}
-      />
-      <StyledInput
-        disabled={loading}
-        error={errors.email}
-        name="email"
-        onChange={handleInput}
-        placeholder="Email"
-        type="email"
-        value={data.email}
-      />
       <StyledInput
         disabled={loading}
         error={errors.password}

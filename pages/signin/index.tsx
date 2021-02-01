@@ -8,7 +8,7 @@ import {
   CLIENT_TYPE,
   RESPONSE_MESSAGES,
 } from '../../configuration';
-import { Data, Errors } from './types';
+import { DataCollection } from './types';
 import getAuthSSP from '../../utilities/get-auth-ssp';
 import saveToken from '../../utilities/save-token';
 import setCookie from '../../utilities/set-cookie';
@@ -21,11 +21,11 @@ import SignInForm from './components/SignInForm';
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
 export default function SignIn() {
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<DataCollection<string>>({
     email: '',
     password: '',
   });
-  const [errors, setErrors] = useState<Errors>({
+  const [errors, setErrors] = useState<DataCollection<boolean>>({
     email: false,
     password: false,
   });
@@ -60,7 +60,7 @@ export default function SignIn() {
     if (!(trimmed.email && trimmed.password)) {
       const inputErrors = Object.keys(errors).reduce(
         (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
-        {} as Errors,
+        {} as DataCollection<boolean>,
       );
       setErrors(inputErrors);
       return setFormError('Please provide the necessary data!');
@@ -69,7 +69,7 @@ export default function SignIn() {
     setLoading(true);
     const noErrors = Object.keys(errors).reduce(
       (obj, key) => ({ ...obj, [key]: false }),
-      {} as Errors,
+      {} as DataCollection<boolean>,
     );
     setErrors(noErrors);
 
@@ -124,13 +124,12 @@ export default function SignIn() {
           SIGN IN
         </div>
         <SignInForm
-          email={data.email}
+          data={data}
           errors={errors}
           formError={formError}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
           loading={loading}
-          password={data.password}
         />
         <LinkButton
           classes={['mt-16']}

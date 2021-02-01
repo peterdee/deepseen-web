@@ -1,30 +1,28 @@
 import React from 'react';
 
-import { Errors } from '../types';
+import { DataCollection } from '../types';
 import styles from '../SignIn.module.css';
 
 import StyledButton from '../../../components/StyledButton';
 import StyledInput from '../../../components/StyledInput';
 
-interface SignUpFormProps {
-  email: string;
-  errors: Errors;
+interface SignInFormProps {
+  data: DataCollection<string>;
+  errors: DataCollection<boolean>;
   formError: string;
-  handleInput: (name: string, value: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<any>
+  handleInput: (value: string, name: string) => void;
+  handleSubmit: (event: React.FormEvent) => Promise<any>;
   loading: boolean;
-  password: string;
 }
 
-export default function SignUpForm(props: SignUpFormProps) {
+export default function SignInForm(props: SignInFormProps) {
   const {
-    email,
+    data,
     errors,
     formError,
     handleInput,
     handleSubmit,
     loading,
-    password,
   } = props;
 
   return (
@@ -39,7 +37,7 @@ export default function SignUpForm(props: SignUpFormProps) {
         onChange={handleInput}
         placeholder="Email"
         type="email"
-        value={email}
+        value={data.email}
       />
       <StyledInput
         disabled={loading}
@@ -48,7 +46,7 @@ export default function SignUpForm(props: SignUpFormProps) {
         onChange={handleInput}
         placeholder="Password"
         type="password"
-        value={password}
+        value={data.password}
       />
       <div className={`${styles.errorContainer} noselect`}>
         { formError }

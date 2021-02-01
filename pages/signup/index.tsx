@@ -8,7 +8,7 @@ import {
   CLIENT_TYPE,
   RESPONSE_MESSAGES,
 } from '../../configuration';
-import { Data, Errors } from './types';
+import { DataCollection } from './types';
 import getAuthSSP from '../../utilities/get-auth-ssp';
 import saveToken from '../../utilities/save-token';
 import setCookie from '../../utilities/set-cookie';
@@ -21,14 +21,14 @@ import SignUpForm from './components/SignUpForm';
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
 export default function SignUp() {
-  const [data, setData] = useState<Data>({
+  const [data, setData] = useState<DataCollection<string>>({
     email: '',
     firstName: '',
     lastName: '',
     password: '',
     passwordConfirmation: '',
   });
-  const [errors, setErrors] = useState<Errors>({
+  const [errors, setErrors] = useState<DataCollection<boolean>>({
     email: false,
     firstName: false,
     lastName: false,
@@ -69,7 +69,7 @@ export default function SignUp() {
       && trimmed.password && trimmed.passwordConfirmation)) {
       const inputErrors = Object.keys(errors).reduce(
         (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
-        {} as Errors,
+        {} as DataCollection<boolean>,
       );
       setErrors(inputErrors);
       return setFormError('Please provide the necessary data!');
@@ -87,7 +87,7 @@ export default function SignUp() {
     setLoading(true);
     const noErrors = Object.keys(errors).reduce(
       (obj, key) => ({ ...obj, [key]: false }),
-      {} as Errors,
+      {} as DataCollection<boolean>,
     );
     setErrors(noErrors);
 
@@ -151,16 +151,12 @@ export default function SignUp() {
           SIGN UP
         </div>
         <SignUpForm
-          email={data.email}
+          data={data}
           errors={errors}
-          firstName={data.firstName}
           formError={formError}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
-          lastName={data.lastName}
           loading={loading}
-          password={data.password}
-          passwordConfirmation={data.passwordConfirmation}
         />
         <LinkButton
           classes={['mt-16']}

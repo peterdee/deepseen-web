@@ -1,4 +1,4 @@
 export interface DataCollection<T> {
-  email: T;
   password: T;
+  passwordConfirmation: T;
 }
