@@ -69,9 +69,9 @@ export default function Recovery() {
       ) }
       <div className={`col ${styles.content}`}>
         { linkSent && (
-          <div className={styles.result}>
+          <h1 className="noselect">
             {`Account recovery link sent to ${email}!`}
-          </div>
+          </h1>
         ) }
         { !linkSent && (
           <>

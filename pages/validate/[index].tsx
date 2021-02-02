@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -17,15 +17,6 @@ export const getServerSideProps: GetServerSideProps = (context): any => getAuthS
 export default function Validate() {
   const router = useRouter();
   const { index: code = '' } = router.query;
-
-  useEffect(
-    () => {
-      if (!code) {
-        router.push('/');
-      }
-    },
-    [],
-  );
 
   const [codeAccepted, setCodeAccepted] = useState<boolean>(false);
   const [data, setData] = useState<DataCollection<string>>({
@@ -56,33 +47,54 @@ export default function Validate() {
   const handleSubmit = async (event: React.FormEvent): Promise<any> => {
     event.preventDefault();
 
-    // TODO: finish this
-    // const trimmedEmail = email.trim();
-    // if (!trimmedEmail) {
-    //   return setFormError('Please provide the necessary data!');
-    // }
+    const trimmed = {
+      password: data.password.trim(),
+      passwordConfirmation: data.passwordConfirmation.trim(),
+    };
+
+    if (!(trimmed.password && trimmed.passwordConfirmation)) {
+      const inputErrors = Object.keys(errors).reduce(
+        (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
+        {} as DataCollection<boolean>,
+      );
+      setErrors(inputErrors);
+      return setFormError('Please provide the necessary data!');
+    }
+
+    if (trimmed.password !== trimmed.passwordConfirmation) {
+      setErrors({
+        password: true,
+        passwordConfirmation: true,
+      });
+      return setFormError('Password confirmation is invalid!');
+    }
 
     setLoading(true);
 
     try {
-      // await axios({
-      //   data: {
-      //     email: trimmedEmail,
-      //   },
-      //   method: 'POST',
-      //   url: `${BACKEND_URL}/api/auth/recovery/send`,
-      // });
+      await axios({
+        data: {
+          code,
+          password: trimmed.password,
+        },
+        method: 'POST',
+        url: `${BACKEND_URL}/api/auth/recovery/validate`,
+      });
 
       setLoading(false);
       return setCodeAccepted(true);
     } catch (error) {
       setLoading(false);
 
-      // const { response: { data: errorData = {} } = {} } = error;
-      // const { status = null } = errorData;
-      // if (status && status === 401) {
-      //   return setFormError('Account not found!');
-      // }
+      const { response: { data: errorData = {} } = {} } = error;
+      const { status = null } = errorData;
+      if (status && status === 400) {
+        return setFormError('Missing required data!');
+      }
+
+      if (status && status === 401) {
+        return setFormError('Recovery link is invalid!');
+      }
 
       return setFormError('Oops! Something went wrong!');
     }
@@ -95,17 +107,14 @@ export default function Validate() {
       ) }
       <div className={`col ${styles.content}`}>
         { codeAccepted && (
-          <div className={styles.result}>
+          <h1 className="noselect">
             Your password is updated!
-          </div>
+          </h1>
         ) }
         { !codeAccepted && (
           <>
             <div className={`${styles.header} noselect`}>
               SET NEW PASSWORD
-            </div>
-            <div className={`${styles.header} noselect`}>
-              {code}
             </div>
             <NewPasswordForm
               data={data}
