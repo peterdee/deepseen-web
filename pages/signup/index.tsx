@@ -3,32 +3,28 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import {
-  BACKEND_URL,
-  CLIENT_TYPE,
-  RESPONSE_MESSAGES,
-} from '../../configuration';
-import { DataCollection } from './types';
-import getAuthSSP from '../../utilities/get-auth-ssp';
-import saveToken from '../../utilities/save-token';
-import setCookie from '../../utilities/set-cookie';
-import styles from './SignUp.module.css';
+import { BACKEND_URL, CLIENT_TYPE, RESPONSE_MESSAGES } from '@/configuration/index';
+import getAuthSSP from '@/utilities/get-auth-ssp';
+import LinkButton from '@/components/LinkButton';
+import Loader from '@/components/Loader';
+import saveToken from '@/utilities/save-token';
+import setCookie from '@/utilities/set-cookie';
+import { SignUpDataCollection } from '@/@types/signup';
 
-import LinkButton from '../../components/LinkButton';
-import Loader from '../../components/Loader';
 import SignUpForm from './components/SignUpForm';
+import styles from './SignUp.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
 export default function SignUp() {
-  const [data, setData] = useState<DataCollection<string>>({
+  const [data, setData] = useState<SignUpDataCollection<string>>({
     email: '',
     firstName: '',
     lastName: '',
     password: '',
     passwordConfirmation: '',
   });
-  const [errors, setErrors] = useState<DataCollection<boolean>>({
+  const [errors, setErrors] = useState<SignUpDataCollection<boolean>>({
     email: false,
     firstName: false,
     lastName: false,
@@ -69,7 +65,7 @@ export default function SignUp() {
       && trimmed.password && trimmed.passwordConfirmation)) {
       const inputErrors = Object.keys(errors).reduce(
         (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
-        {} as DataCollection<boolean>,
+        {} as SignUpDataCollection<boolean>,
       );
       setErrors(inputErrors);
       return setFormError('Please provide the necessary data!');
@@ -87,7 +83,7 @@ export default function SignUp() {
     setLoading(true);
     const noErrors = Object.keys(errors).reduce(
       (obj, key) => ({ ...obj, [key]: false }),
-      {} as DataCollection<boolean>,
+      {} as SignUpDataCollection<boolean>,
     );
     setErrors(noErrors);
 

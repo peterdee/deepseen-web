@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DataCollection } from '../types';
+import { DataCollection } from './types';
 import styles from '../SignUp.module.css';
 
 import StyledButton from '../../../components/StyledButton';

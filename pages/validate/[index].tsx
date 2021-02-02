@@ -10,7 +10,7 @@ import styles from './Validate.module.css';
 import NewPasswordForm from './components/NewPasswordForm';
 import LinkButton from '../../components/LinkButton';
 import Loader from '../../components/Loader';
-import { DataCollection } from './types';
+import { DataCollection } from './components/types';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -107,7 +107,7 @@ export default function Validate() {
       ) }
       <div className={`col ${styles.content}`}>
         { codeAccepted && (
-          <h1 className="noselect">
+          <h1 className="text-center noselect">
             Your password is updated!
           </h1>
         ) }

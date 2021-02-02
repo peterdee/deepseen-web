@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from '../Validate.module.css';
 
-import { DataCollection } from '../types';
+import { DataCollection } from './types';
 import StyledButton from '../../../components/StyledButton';
 import StyledInput from '../../../components/StyledInput';
 

@@ -4,9 +4,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { parse } from 'cookie';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL, COOKIE_NAME } from '../../configuration';
-import deleteCookie from '../../utilities/delete-cookie';
-import deleteToken from '../../utilities/delete-token';
+import { BACKEND_URL, COOKIE_NAME } from '@/configuration/index';
+import deleteCookie from '@/utilities/delete-cookie';
+import deleteToken from '@/utilities/delete-token';
 
 const redirect = {
   destination: '/signin',

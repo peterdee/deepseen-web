@@ -1,17 +1,10 @@
 import React from 'react';
 
+import { EmailFormProps } from '@/@types/forms';
+import StyledButton from '@/components/StyledButton';
+import StyledInput from '@/components/StyledInput';
+
 import styles from '../Recovery.module.css';
-
-import StyledButton from '../../../components/StyledButton';
-import StyledInput from '../../../components/StyledInput';
-
-interface EmailFormProps {
-  email: string;
-  formError: string;
-  handleInput: (value: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<any>;
-  loading: boolean;
-}
 
 export default function EmailForm(props: EmailFormProps) {
   const {

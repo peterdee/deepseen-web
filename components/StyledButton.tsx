@@ -1,14 +1,7 @@
 import React, { memo } from 'react';
 
+import { StyledButtonProps } from '@/@types/components';
 import styles from './styles.module.css';
-
-interface StyledButtonProps {
-  classes?: string[];
-  disabled?: boolean;
-  isSubmit?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any,
-  text: string;
-}
 
 function StyledButton(props: StyledButtonProps): React.ReactElement {
   const {

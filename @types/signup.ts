@@ -1,4 +1,4 @@
-export interface DataCollection<T> {
+export interface SignUpDataCollection<T> {
   email: T;
   firstName: T;
   lastName: T;

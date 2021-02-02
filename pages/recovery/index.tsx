@@ -3,13 +3,13 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL } from '../../configuration';
-import getAuthSSP from '../../utilities/get-auth-ssp';
-import styles from './Recovery.module.css';
+import { BACKEND_URL } from '@/configuration/index';
+import getAuthSSP from '@/utilities/get-auth-ssp';
+import LinkButton from '@/components/LinkButton';
+import Loader from '@/components/Loader';
 
 import EmailForm from './components/EmailForm';
-import LinkButton from '../../components/LinkButton';
-import Loader from '../../components/Loader';
+import styles from './Recovery.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -69,7 +69,7 @@ export default function Recovery() {
       ) }
       <div className={`col ${styles.content}`}>
         { linkSent && (
-          <h1 className="noselect">
+          <h1 className="text-center noselect">
             {`Account recovery link sent to ${email}!`}
           </h1>
         ) }

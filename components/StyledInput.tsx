@@ -1,16 +1,7 @@
 import React, { memo } from 'react';
 
+import { StyledInputProps } from '@/@types/components';
 import styles from './styles.module.css';
-
-interface StyledInputProps {
-  disabled?: boolean;
-  error?: boolean;
-  name: string;
-  onChange: (value: string, name?: string) => void,
-  placeholder?: string;
-  type: string;
-  value: string;
-}
 
 function StyledInput(props: StyledInputProps): React.ReactElement {
   const {

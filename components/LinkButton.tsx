@@ -1,15 +1,9 @@
 import React, { memo } from 'react';
 
+import { ButtonProps } from '@/@types/components';
 import styles from './styles.module.css';
 
-interface LinkButtonProps {
-  classes?: string[];
-  disabled?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any,
-  text: string;
-}
-
-function LinkButton(props: LinkButtonProps): React.ReactElement {
+function LinkButton(props: ButtonProps): React.ReactElement {
   const {
     classes,
     disabled,
