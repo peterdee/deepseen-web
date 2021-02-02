@@ -1,28 +1,27 @@
 import React from 'react';
 
-import { DataCollection } from './types';
+import { SignUpFormProps } from '@/@types/forms';
+import StyledButton from '@/components/StyledButton';
+import StyledInput from '@/components/StyledInput';
+
 import styles from '../SignUp.module.css';
-
-import StyledButton from '../../../components/StyledButton';
-import StyledInput from '../../../components/StyledInput';
-
-interface SignUpFormProps {
-  data: DataCollection<string>;
-  errors: DataCollection<boolean>;
-  formError: string;
-  handleInput: (value: string, name: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<any>;
-  loading: boolean;
-}
 
 export default function SignUpForm(props: SignUpFormProps) {
   const {
-    data,
-    errors,
+    email,
+    emailError,
+    firstName,
+    firstNameError,
     formError,
     handleInput,
     handleSubmit,
+    lastName,
+    lastNameError,
     loading,
+    password,
+    passwordConfirmation,
+    passwordConfirmationError,
+    passwordError,
   } = props;
 
   return (
@@ -32,48 +31,48 @@ export default function SignUpForm(props: SignUpFormProps) {
     >
       <StyledInput
         disabled={loading}
-        error={errors.firstName}
+        error={firstNameError}
         name="firstName"
         onChange={handleInput}
         placeholder="First name"
         type="text"
-        value={data.firstName}
+        value={firstName}
       />
       <StyledInput
         disabled={loading}
-        error={errors.lastName}
+        error={lastNameError}
         name="lastName"
         onChange={handleInput}
         placeholder="Last name"
         type="text"
-        value={data.lastName}
+        value={lastName}
       />
       <StyledInput
         disabled={loading}
-        error={errors.email}
+        error={emailError}
         name="email"
         onChange={handleInput}
         placeholder="Email"
         type="email"
-        value={data.email}
+        value={email}
       />
       <StyledInput
         disabled={loading}
-        error={errors.password}
+        error={passwordError}
         name="password"
         onChange={handleInput}
         placeholder="Password"
         type="password"
-        value={data.password}
+        value={password}
       />
       <StyledInput
         disabled={loading}
-        error={errors.passwordConfirmation}
+        error={passwordConfirmationError}
         name="passwordConfirmation"
         onChange={handleInput}
         placeholder="Password confirmation"
         type="password"
-        value={data.passwordConfirmation}
+        value={passwordConfirmation}
       />
       <div className={`${styles.errorContainer} noselect`}>
         { formError }

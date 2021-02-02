@@ -1,28 +1,21 @@
 import React from 'react';
 
+import { NewPasswordFormProps } from '@/@types/forms';
+import StyledButton from '@/components/StyledButton';
+import StyledInput from '@/components/StyledInput';
+
 import styles from '../Validate.module.css';
-
-import { DataCollection } from './types';
-import StyledButton from '../../../components/StyledButton';
-import StyledInput from '../../../components/StyledInput';
-
-interface NewPasswordFormProps {
-  data: DataCollection<string>;
-  errors: DataCollection<boolean>;
-  formError: string;
-  handleInput: (value: string, name: string) => void;
-  handleSubmit: (event: React.FormEvent) => Promise<any>
-  loading: boolean;
-}
 
 export default function NewPasswordForm(props: NewPasswordFormProps) {
   const {
-    data,
-    errors,
     formError,
     handleInput,
     handleSubmit,
     loading,
+    password,
+    passwordConfirmation,
+    passwordConfirmationError,
+    passwordError,
   } = props;
 
   return (
@@ -32,21 +25,21 @@ export default function NewPasswordForm(props: NewPasswordFormProps) {
     >
       <StyledInput
         disabled={loading}
-        error={errors.password}
+        error={passwordError}
         name="password"
         onChange={handleInput}
         placeholder="Password"
         type="password"
-        value={data.password}
+        value={password}
       />
       <StyledInput
         disabled={loading}
-        error={errors.passwordConfirmation}
+        error={passwordConfirmationError}
         name="passwordConfirmation"
         onChange={handleInput}
         placeholder="Password confirmation"
         type="password"
-        value={data.passwordConfirmation}
+        value={passwordConfirmation}
       />
       <div className={`${styles.errorContainer} noselect`}>
         { formError }

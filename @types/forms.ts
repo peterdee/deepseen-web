@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { SignInDataCollection } from './signin';
-
 export interface FormProps {
   formError: string;
   handleInput: (value: string, name?: string) => void;
@@ -13,7 +11,29 @@ export interface EmailFormProps extends FormProps {
   email: string;
 }
 
+export interface NewPasswordFormProps extends FormProps {
+  password: string;
+  passwordConfirmation: string;
+  passwordConfirmationError: boolean;
+  passwordError: boolean;
+}
+
 export interface SignInFormProps extends FormProps {
-  data: SignInDataCollection<string>;
-  errors: SignInDataCollection<boolean>;
+  email: string;
+  emailError: boolean;
+  password: string;
+  passwordError: boolean;
+}
+
+export interface SignUpFormProps extends FormProps {
+  email: string;
+  emailError: boolean;
+  firstName: string;
+  firstNameError: boolean;
+  lastName: string;
+  lastNameError: boolean;
+  password: string;
+  passwordConfirmation: string;
+  passwordConfirmationError: boolean;
+  passwordError: boolean;
 }

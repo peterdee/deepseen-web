@@ -120,12 +120,14 @@ export default function SignIn() {
           SIGN IN
         </div>
         <SignInForm
-          data={data}
-          errors={errors}
+          email={data.email}
+          emailError={errors.email}
           formError={formError}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
           loading={loading}
+          password={data.password}
+          passwordError={errors.password}
         />
         <LinkButton
           classes={['mt-16']}

@@ -3,14 +3,14 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL } from '../../configuration';
-import getAuthSSP from '../../utilities/get-auth-ssp';
-import styles from './Validate.module.css';
+import { BACKEND_URL } from '@/configuration/index';
+import getAuthSSP from '@/utilities/get-auth-ssp';
+import LinkButton from '@/components/LinkButton';
+import Loader from '@/components/Loader';
+import { ValidateDataCollection } from '@/@types/validate';
 
 import NewPasswordForm from './components/NewPasswordForm';
-import LinkButton from '../../components/LinkButton';
-import Loader from '../../components/Loader';
-import { DataCollection } from './components/types';
+import styles from './Validate.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -19,11 +19,11 @@ export default function Validate() {
   const { index: code = '' } = router.query;
 
   const [codeAccepted, setCodeAccepted] = useState<boolean>(false);
-  const [data, setData] = useState<DataCollection<string>>({
+  const [data, setData] = useState<ValidateDataCollection<string>>({
     password: '',
     passwordConfirmation: '',
   });
-  const [errors, setErrors] = useState<DataCollection<boolean>>({
+  const [errors, setErrors] = useState<ValidateDataCollection<boolean>>({
     password: false,
     passwordConfirmation: false,
   });
@@ -55,7 +55,7 @@ export default function Validate() {
     if (!(trimmed.password && trimmed.passwordConfirmation)) {
       const inputErrors = Object.keys(errors).reduce(
         (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
-        {} as DataCollection<boolean>,
+        {} as ValidateDataCollection<boolean>,
       );
       setErrors(inputErrors);
       return setFormError('Please provide the necessary data!');
@@ -117,12 +117,14 @@ export default function Validate() {
               SET NEW PASSWORD
             </div>
             <NewPasswordForm
-              data={data}
-              errors={errors}
               formError={formError}
               handleInput={handleInput}
               handleSubmit={handleSubmit}
               loading={loading}
+              password={data.password}
+              passwordConfirmation={data.password}
+              passwordConfirmationError={errors.passwordConfirmation}
+              passwordError={errors.password}
             />
           </>
         ) }

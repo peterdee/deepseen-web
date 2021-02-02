@@ -8,12 +8,14 @@ import styles from '../SignIn.module.css';
 
 export default function SignInForm(props: SignInFormProps) {
   const {
-    data,
-    errors,
+    email,
+    emailError,
     formError,
     handleInput,
     handleSubmit,
     loading,
+    password,
+    passwordError,
   } = props;
 
   return (
@@ -23,21 +25,21 @@ export default function SignInForm(props: SignInFormProps) {
     >
       <StyledInput
         disabled={loading}
-        error={errors.email}
+        error={emailError}
         name="email"
         onChange={handleInput}
         placeholder="Email"
         type="email"
-        value={data.email}
+        value={email}
       />
       <StyledInput
         disabled={loading}
-        error={errors.password}
+        error={passwordError}
         name="password"
         onChange={handleInput}
         placeholder="Password"
         type="password"
-        value={data.password}
+        value={password}
       />
       <div className={`${styles.errorContainer} noselect`}>
         { formError }

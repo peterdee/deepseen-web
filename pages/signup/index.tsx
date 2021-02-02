@@ -147,12 +147,20 @@ export default function SignUp() {
           SIGN UP
         </div>
         <SignUpForm
-          data={data}
-          errors={errors}
+          email={data.email}
+          emailError={errors.email}
+          firstName={data.firstName}
+          firstNameError={errors.firstName}
           formError={formError}
           handleInput={handleInput}
           handleSubmit={handleSubmit}
+          lastName={data.lastName}
+          lastNameError={errors.lastName}
           loading={loading}
+          password={data.password}
+          passwordConfirmation={data.passwordConfirmation}
+          passwordConfirmationError={errors.passwordConfirmation}
+          passwordError={errors.password}
         />
         <LinkButton
           classes={['mt-16']}
