@@ -50,6 +50,9 @@ a, a:visited {
   justify-content: flex-start;
   width: 100%;
 }
+.justify-content-center {
+  justify-content: center;
+}
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

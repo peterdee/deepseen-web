@@ -1,7 +1,7 @@
 {
   "name": "deepseen-web",
   "version": "1.0.0",
-  "description": "Web application for the Deepseen project",
+  "description": "A web application for the Deepseen project",
   "private": true,
   "homepage": "https://github.com/peterdee/deepseen-web",
   "author": {
