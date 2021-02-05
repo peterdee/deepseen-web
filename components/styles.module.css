@@ -121,3 +121,24 @@
     opacity: 0;
   }
 }
+.modalBackground {
+  backdrop-filter: saturate(350%) blur(4px) brightness(30%);
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+.modalForeground {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 11;
+}

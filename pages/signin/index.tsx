@@ -3,6 +3,7 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
+import AuthErrorModal from '@/components/AuthErrorModal';
 import { BACKEND_URL, CLIENT_TYPE, RESPONSE_MESSAGES } from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
@@ -13,6 +14,8 @@ import { SignInDataCollection } from '@/@types/signin';
 
 import SignInForm from './components/SignInForm';
 import styles from './SignIn.module.css';
+
+const message = 'You are suspended from this functionality for 5 minutes!';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -27,12 +30,15 @@ export default function SignIn() {
   });
   const [formError, setFormError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const router = useRouter();
 
   const handleBackButton = () => router.push('/');
   const handleCreateAccountButton = () => router.push('/signup');
   const handleForgotPasswordButton = () => router.push('/recovery');
+
+  const closeModal = () => setShowModal(false);
 
   const handleInput = (value: string, name: string): void => {
     setData((state) => ({
@@ -104,6 +110,10 @@ export default function SignIn() {
         if (info === RESPONSE_MESSAGES.accessDenied && status === 401) {
           return setFormError('Access denied!');
         }
+        if (info === RESPONSE_MESSAGES.tooManyRequests && status === 429) {
+          setFormError('');
+          return setShowModal(true);
+        }
       }
 
       return setFormError('Oops! Something went wrong!');
@@ -114,6 +124,12 @@ export default function SignIn() {
     <>
       { loading && (
         <Loader />
+      ) }
+      { showModal && (
+        <AuthErrorModal
+          closeModal={closeModal}
+          message={message}
+        />
       ) }
       <div className={`col ${styles.content}`}>
         <div className={`${styles.header} noselect`}>

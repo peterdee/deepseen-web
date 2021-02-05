@@ -18,6 +18,7 @@ export const RESPONSE_MESSAGES = {
   internalServerError: 'INTERNAL_SERVER_ERROR',
   invalidData: 'INVALID_DATA',
   missingData: 'MISSING_DATA',
+  tooManyRequests: 'TOO_MANY_REQUESTS',
 };
 
 export const TOKEN_NAME = 'token';
