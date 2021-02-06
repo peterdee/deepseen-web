@@ -3,6 +3,7 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
+import AuthErrorModal from '@/components/AuthErrorModal';
 import { BACKEND_URL, CLIENT_TYPE, RESPONSE_MESSAGES } from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
@@ -13,6 +14,8 @@ import { SignUpDataCollection } from '@/@types/signup';
 
 import SignUpForm from './components/SignUpForm';
 import styles from './SignUp.module.css';
+
+const message = 'You are suspended from this functionality for 60 minutes!';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -33,10 +36,13 @@ export default function SignUp() {
   });
   const [formError, setFormError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const router = useRouter();
 
-  const handleBackButton = () => router.push('/');
+  const closeModal = () => setShowModal(false);
+
+  const handleBackButton = () => router.back();
   const handleHaveAccountButton = () => router.push('/signin');
 
   const handleInput = (value: string, name: string): void => {
@@ -131,6 +137,10 @@ export default function SignUp() {
         if (info === RESPONSE_MESSAGES.missingData && status === 400) {
           return setFormError('Missing required data!');
         }
+        if (info === RESPONSE_MESSAGES.tooManyRequests && status === 429) {
+          setFormError('');
+          return setShowModal(true);
+        }
       }
 
       return setFormError('Oops! Something went wrong!');
@@ -141,6 +151,12 @@ export default function SignUp() {
     <>
       { loading && (
         <Loader />
+      ) }
+      { showModal && (
+        <AuthErrorModal
+          closeModal={closeModal}
+          message={message}
+        />
       ) }
       <div className={`col ${styles.content}`}>
         <div className={`${styles.header} noselect`}>

@@ -50,7 +50,7 @@
   transition: border 160ms ease-in;
 }
 .linkButton {
-  background-color: var(--app-background);
+  background-color: transparent;
   border: none;
   color: var(--accent);
   cursor: pointer;
@@ -66,16 +66,6 @@
 }
 
 /* Loader */
-.background {
-  background-color: var(--app-background);
-  height: 100vh;
-  left: 0;
-  opacity: 0.5;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-}
 .loader {
   align-items: center;
   background-color: transparent;
@@ -121,7 +111,9 @@
     opacity: 0;
   }
 }
-.modalBackground {
+
+.loaderBackground, .modalBackground {
+  animation: modal .5s;
   backdrop-filter: saturate(350%) blur(4px) brightness(30%);
   height: 100vh;
   left: 0;
@@ -132,6 +124,7 @@
 }
 .modalForeground {
   align-items: center;
+  animation: modal .5s;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -141,4 +134,12 @@
   top: 0;
   width: 100%;
   z-index: 11;
+}
+@keyframes modal {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

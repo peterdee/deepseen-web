@@ -34,7 +34,7 @@ export default function SignIn() {
 
   const router = useRouter();
 
-  const handleBackButton = () => router.push('/');
+  const handleBackButton = () => router.back();
   const handleCreateAccountButton = () => router.push('/signup');
   const handleForgotPasswordButton = () => router.push('/recovery');
 

@@ -21,7 +21,7 @@ export default function Recovery() {
 
   const router = useRouter();
 
-  const handleBackButton = () => router.push('/');
+  const handleBackButton = () => router.back();
 
   const handleInput = (value: string): void => {
     setEmail(value);

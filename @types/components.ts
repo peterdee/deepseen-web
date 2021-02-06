@@ -3,7 +3,7 @@ import React from 'react';
 export interface ButtonProps {
   classes?: string[];
   disabled?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any;
   text: string;
 }
 
@@ -15,7 +15,7 @@ export interface StyledInputProps {
   disabled?: boolean;
   error?: boolean;
   name: string;
-  onChange: (value: string, name?: string) => void,
+  onChange: (value: string, name?: string) => void;
   placeholder?: string;
   type: string;
   value: string;

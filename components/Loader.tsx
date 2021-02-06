@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 function Loader(): React.ReactElement {
   return (
     <>
-      <div className={styles.background} />
+      <div className={styles.loaderBackground} />
       <div className={styles.loader}>
         <div className={styles.ldsripple}>
           <div />
