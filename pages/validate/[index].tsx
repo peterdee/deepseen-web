@@ -3,7 +3,7 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL } from '@/configuration/index';
+import { BACKEND_URL, ERROR_MESSAGES } from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
@@ -58,7 +58,7 @@ export default function Validate() {
         {} as ValidateDataCollection<boolean>,
       );
       setErrors(inputErrors);
-      return setFormError('Please provide the necessary data!');
+      return setFormError(ERROR_MESSAGES.pleaseProvideData);
     }
 
     if (trimmed.password !== trimmed.passwordConfirmation) {
@@ -66,7 +66,7 @@ export default function Validate() {
         password: true,
         passwordConfirmation: true,
       });
-      return setFormError('Password confirmation is invalid!');
+      return setFormError(ERROR_MESSAGES.invalidPasswordConfirmation);
     }
 
     setLoading(true);
@@ -89,14 +89,14 @@ export default function Validate() {
       const { response: { data: errorData = {} } = {} } = error;
       const { status = null } = errorData;
       if (status && status === 400) {
-        return setFormError('Missing required data!');
+        return setFormError(ERROR_MESSAGES.missingData);
       }
 
       if (status && status === 401) {
-        return setFormError('Recovery link is invalid!');
+        return setFormError(ERROR_MESSAGES.invalidRecoveryLink);
       }
 
-      return setFormError('Oops! Something went wrong!');
+      return setFormError(ERROR_MESSAGES.oops);
     }
   };
 

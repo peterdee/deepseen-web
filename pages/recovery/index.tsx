@@ -3,7 +3,8 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL } from '@/configuration/index';
+import AuthErrorModal from '@/components/AuthErrorModal';
+import { BACKEND_URL, ERROR_MESSAGES } from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
@@ -18,14 +19,17 @@ export default function Recovery() {
   const [email, setEmail] = useState<string>('');
   const [formError, setFormError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const router = useRouter();
+
+  const closeModal = () => setShowModal(false);
 
   const handleBackButton = () => router.back();
 
   const handleInput = (value: string): void => {
     setEmail(value);
-    setFormError('');
+    return setFormError('');
   };
 
   const handleSubmit = async (event: React.FormEvent): Promise<any> => {
@@ -33,7 +37,7 @@ export default function Recovery() {
 
     const trimmedEmail = email.trim();
     if (!trimmedEmail) {
-      return setFormError('Please provide the necessary data!');
+      return setFormError(ERROR_MESSAGES.pleaseProvideData);
     }
 
     setLoading(true);
@@ -55,10 +59,14 @@ export default function Recovery() {
       const { response: { data = {} } = {} } = error;
       const { status = null } = data;
       if (status && status === 401) {
-        return setFormError('Account not found!');
+        return setFormError(ERROR_MESSAGES.accountNotFound);
+      }
+      if (status && status === 429) {
+        setFormError('');
+        return setShowModal(true);
       }
 
-      return setFormError('Oops! Something went wrong!');
+      return setFormError(ERROR_MESSAGES.oops);
     }
   };
 
@@ -66,6 +74,12 @@ export default function Recovery() {
     <>
       { loading && (
         <Loader />
+      ) }
+      { showModal && (
+        <AuthErrorModal
+          closeModal={closeModal}
+          message={ERROR_MESSAGES.tooManyRequests}
+        />
       ) }
       <div className={`col ${styles.content}`}>
         { linkSent && (

@@ -4,7 +4,12 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import AuthErrorModal from '@/components/AuthErrorModal';
-import { BACKEND_URL, CLIENT_TYPE, RESPONSE_MESSAGES } from '@/configuration/index';
+import {
+  BACKEND_URL,
+  CLIENT_TYPE,
+  ERROR_MESSAGES,
+  RESPONSE_MESSAGES,
+} from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
@@ -14,8 +19,6 @@ import { SignInDataCollection } from '@/@types/signin';
 
 import SignInForm from './components/SignInForm';
 import styles from './SignIn.module.css';
-
-const message = 'You are suspended from this functionality for 5 minutes!';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -34,11 +37,11 @@ export default function SignIn() {
 
   const router = useRouter();
 
+  const closeModal = () => setShowModal(false);
+
   const handleBackButton = () => router.back();
   const handleCreateAccountButton = () => router.push('/signup');
   const handleForgotPasswordButton = () => router.push('/recovery');
-
-  const closeModal = () => setShowModal(false);
 
   const handleInput = (value: string, name: string): void => {
     setData((state) => ({
@@ -65,7 +68,7 @@ export default function SignIn() {
         {} as SignInDataCollection<boolean>,
       );
       setErrors(inputErrors);
-      return setFormError('Please provide the necessary data!');
+      return setFormError(ERROR_MESSAGES.pleaseProvideData);
     }
 
     setLoading(true);
@@ -89,7 +92,7 @@ export default function SignIn() {
       setLoading(false);
       const { data: { data: responseData = {} } = {} } = response;
       if (!(responseData.token && responseData.user)) {
-        return setFormError('Oops! Something went wrong!');
+        return setFormError(ERROR_MESSAGES.oops);
       }
 
       const { token } = responseData;
@@ -105,10 +108,10 @@ export default function SignIn() {
       if (errorData.info && errorData.status) {
         const { info, status } = errorData;
         if (info === RESPONSE_MESSAGES.missingData && status === 400) {
-          return setFormError('Missing required data!');
+          return setFormError(ERROR_MESSAGES.missingData);
         }
         if (info === RESPONSE_MESSAGES.accessDenied && status === 401) {
-          return setFormError('Access denied!');
+          return setFormError(ERROR_MESSAGES.accessDenied);
         }
         if (info === RESPONSE_MESSAGES.tooManyRequests && status === 429) {
           setFormError('');
@@ -116,7 +119,7 @@ export default function SignIn() {
         }
       }
 
-      return setFormError('Oops! Something went wrong!');
+      return setFormError(ERROR_MESSAGES.oops);
     }
   };
 
@@ -128,7 +131,7 @@ export default function SignIn() {
       { showModal && (
         <AuthErrorModal
           closeModal={closeModal}
-          message={message}
+          message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
       <div className={`col ${styles.content}`}>

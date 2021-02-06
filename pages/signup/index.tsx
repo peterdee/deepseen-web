@@ -4,7 +4,12 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import AuthErrorModal from '@/components/AuthErrorModal';
-import { BACKEND_URL, CLIENT_TYPE, RESPONSE_MESSAGES } from '@/configuration/index';
+import {
+  BACKEND_URL,
+  CLIENT_TYPE,
+  ERROR_MESSAGES,
+  RESPONSE_MESSAGES,
+} from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
@@ -14,8 +19,6 @@ import { SignUpDataCollection } from '@/@types/signup';
 
 import SignUpForm from './components/SignUpForm';
 import styles from './SignUp.module.css';
-
-const message = 'You are suspended from this functionality for 60 minutes!';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -74,7 +77,7 @@ export default function SignUp() {
         {} as SignUpDataCollection<boolean>,
       );
       setErrors(inputErrors);
-      return setFormError('Please provide the necessary data!');
+      return setFormError(ERROR_MESSAGES.pleaseProvideData);
     }
 
     if (trimmed.password !== trimmed.passwordConfirmation) {
@@ -83,7 +86,7 @@ export default function SignUp() {
         password: true,
         passwordConfirmation: true,
       }));
-      return setFormError('Password confirmation is invalid!');
+      return setFormError(ERROR_MESSAGES.invalidPasswordConfirmation);
     }
 
     setLoading(true);
@@ -109,7 +112,7 @@ export default function SignUp() {
       setLoading(false);
       const { data: { data: responseData = {} } = {} } = response;
       if (!(responseData.token && responseData.user)) {
-        return setFormError('Oops! Something went wrong!');
+        return setFormError(ERROR_MESSAGES.oops);
       }
 
       const { token } = responseData;
@@ -129,13 +132,13 @@ export default function SignUp() {
             ...state,
             email: true,
           }));
-          return setFormError('Email address is already in use!');
+          return setFormError(ERROR_MESSAGES.emailAlreadyInUse);
         }
         if (info === RESPONSE_MESSAGES.invalidData && status === 400) {
-          return setFormError('Provided data is invalid!');
+          return setFormError(ERROR_MESSAGES.providedInvalidData);
         }
         if (info === RESPONSE_MESSAGES.missingData && status === 400) {
-          return setFormError('Missing required data!');
+          return setFormError(ERROR_MESSAGES.missingData);
         }
         if (info === RESPONSE_MESSAGES.tooManyRequests && status === 429) {
           setFormError('');
@@ -143,7 +146,7 @@ export default function SignUp() {
         }
       }
 
-      return setFormError('Oops! Something went wrong!');
+      return setFormError(ERROR_MESSAGES.oops);
     }
   };
 
@@ -155,7 +158,7 @@ export default function SignUp() {
       { showModal && (
         <AuthErrorModal
           closeModal={closeModal}
-          message={message}
+          message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
       <div className={`col ${styles.content}`}>
