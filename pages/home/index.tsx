@@ -1,4 +1,8 @@
-import React, { useEffect } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import axios from 'axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { io, Socket } from 'socket.io-client';
@@ -7,12 +11,14 @@ import { useRouter } from 'next/router';
 
 import {
   BACKEND_URL,
+  CLIENT_TYPES,
   COOKIE_NAME,
   EVENTS,
   WEBSOCKETS_URL,
 } from '@/configuration/index';
 import deleteCookie from '@/utilities/delete-cookie';
 import deleteToken from '@/utilities/delete-token';
+import { NewClientConnectedData, RoomStatusData } from '@/@types/home';
 import { saveData } from '@/utilities/data-actions';
 import useRefState from '@/hooks/use-ref-state';
 
@@ -59,11 +65,16 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
   }
 };
 
-export default function Home(
-  { account, token }: InferGetServerSidePropsType<typeof getServerSideProps>,
-) {
-  const [connection, setConnection] = useRefState({} as Socket);
+export default function Home({
+  account,
+  token,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+
+  const [connection, setConnection] = useRefState({} as Socket);
+  const [desktopConnected, setDesktopConnected] = useState<boolean>(false);
+  const [mobileConnected, setMobileConnected] = useState<boolean>(false);
+  const [webConnected, setWebConnected] = useState<boolean>(false);
 
   useEffect(
     () => {
@@ -76,6 +87,79 @@ export default function Home(
       }
     },
     [],
+  );
+
+  // handle incoming connect event
+  const connect = useCallback(
+    (): void => setWebConnected(true),
+    [setWebConnected],
+  );
+
+  // handle incoming disconnect event
+  const disconnect = useCallback(
+    (): void => {
+      setDesktopConnected(false);
+      setMobileConnected(false);
+      setWebConnected(false);
+    },
+    [
+      setDesktopConnected,
+      setMobileConnected,
+      setWebConnected,
+    ],
+  );
+
+  // handle incoming NEW_CLIENT_CONNECTED event
+  const newClientConnected = useCallback(
+    (data: NewClientConnectedData): void => {
+      const { client = '' } = data;
+      if (client === CLIENT_TYPES.desktop) {
+        setDesktopConnected(true);
+      }
+      if (client === CLIENT_TYPES.mobile) {
+        setDesktopConnected(true);
+      }
+    },
+    [setDesktopConnected, setMobileConnected],
+  );
+
+  // handle incoming ROOM_STATUS event
+  const roomStatus = useCallback(
+    ({ room }: RoomStatusData): boolean | void => {
+      if (!(Array.isArray(room) && room.length > 0)) {
+        return false;
+      }
+
+      const [desktop, mobile] = room.reduce(
+        (arr, item) => {
+          if (item.client === CLIENT_TYPES.desktop) {
+            return [
+              [...arr[0], item],
+              [...arr[1]],
+            ];
+          }
+          if (item.client === CLIENT_TYPES.mobile) {
+            return [
+              [...arr[0]],
+              [...arr[1], item],
+            ];
+          }
+
+          return arr;
+        },
+        [[], []],
+      );
+
+      if (desktop.length > 0) {
+        return setDesktopConnected(true);
+      }
+      if (mobile.length > 0) {
+        return setMobileConnected(true);
+      }
+
+      return false;
+    },
+    [setDesktopConnected, setMobileConnected],
   );
 
   useEffect(
@@ -96,10 +180,16 @@ export default function Home(
 
       setConnection(socket);
 
-      // TODO: add subscriptions for the incoming events
+      socket.on(EVENTS.connect, connect);
+      socket.on(EVENTS.disconnect, disconnect);
+      socket.on(EVENTS.NEW_CLIENT_CONNECTED, newClientConnected);
+      socket.on(EVENTS.ROOM_STATUS, roomStatus);
 
       return () => {
-        // TODO: remove subscriptions
+        socket.off(EVENTS.connect, connect);
+        socket.off(EVENTS.disconnect, disconnect);
+        socket.off(EVENTS.NEW_CLIENT_CONNECTED, newClientConnected);
+        socket.off(EVENTS.ROOM_STATUS, roomStatus);
 
         socket.close();
       };
@@ -107,11 +197,13 @@ export default function Home(
     [],
   );
 
-  const completeSignOut = async (): Promise<void> => {
+  const completeSignOut = async (): Promise<boolean> => {
     if (connection.current.connected) {
-      console.log('is here')
       connection.current.emit(EVENTS.COMPLETE_LOGOUT);
     }
+
+    deleteCookie();
+    deleteToken();
 
     try {
       await axios({
@@ -121,13 +213,9 @@ export default function Home(
         method: 'GET',
         url: `${BACKEND_URL}/api/auth/signout/complete`,
       });
+      return router.push('/signin');
     } catch {
-      deleteCookie();
-      deleteToken();
-    } finally {
-      deleteCookie();
-      deleteToken();
-      router.push('/signin');
+      return router.push('/signin');
     }
   };
 
@@ -169,6 +257,15 @@ export default function Home(
       >
         COMPLETE SIGN OUT
       </button>
+      <div>
+        { `Desktop application is ${desktopConnected ? 'connected' : 'not connected'}` }
+      </div>
+      <div>
+        { `Mobile application is ${mobileConnected ? 'connected' : 'not connected'}` }
+      </div>
+      <div>
+        { `Web application is ${webConnected ? 'connected' : 'not connected'}` }
+      </div>
     </div>
   );
 }

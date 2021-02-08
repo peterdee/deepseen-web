@@ -24,7 +24,11 @@ export const ERROR_MESSAGES = {
 } as const;
 
 export const EVENTS = {
+  connect: 'connect',
+  disconnect: 'disconnect',
   COMPLETE_LOGOUT: 'COMPLETE_LOGOUT',
+  NEW_CLIENT_CONNECTED: 'NEW_CLIENT_CONNECTED',
+  ROOM_STATUS: 'ROOM_STATUS',
 } as const;
 
 export const RESPONSE_MESSAGES = {
