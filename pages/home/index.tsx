@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { io, Socket } from 'socket.io-client';
 import { parse } from 'cookie';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL, COOKIE_NAME } from '@/configuration/index';
+import {
+  BACKEND_URL,
+  COOKIE_NAME,
+  EVENTS,
+  WEBSOCKETS_URL,
+} from '@/configuration/index';
 import deleteCookie from '@/utilities/delete-cookie';
 import deleteToken from '@/utilities/delete-token';
+import { saveData } from '@/utilities/data-actions';
+import useRefState from '@/hooks/use-ref-state';
 
 const redirect = {
   destination: '/signin',
@@ -29,9 +37,10 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
       };
     }
 
+    const token = parsedCookies[COOKIE_NAME];
     const { data: { data: { user = {} } = {} } = {} } = await axios({
       headers: {
-        Authorization: parsedCookies[COOKIE_NAME],
+        Authorization: token,
       },
       method: 'GET',
       url: `${BACKEND_URL}/api/user`,
@@ -40,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
     return {
       props: {
         account: user,
+        token,
       },
     };
   } catch {
@@ -50,8 +60,9 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
 };
 
 export default function Home(
-  { account }: InferGetServerSidePropsType<typeof getServerSideProps>,
+  { account, token }: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) {
+  const [connection, setConnection] = useRefState({} as Socket);
   const router = useRouter();
 
   useEffect(
@@ -60,10 +71,65 @@ export default function Home(
         deleteCookie();
         deleteToken();
         router.push('/signin');
+      } else {
+        saveData('user', account);
       }
     },
     [],
   );
+
+  useEffect(
+    () => {
+      const socket: Socket = io(
+        WEBSOCKETS_URL,
+        {
+          autoConnect: true,
+          query: {
+            token,
+          },
+          reconnection: true,
+          reconnectionAttempts: 10,
+          reconnectionDelay: 1000,
+          reconnectionDelayMax: 10000,
+        },
+      );
+
+      setConnection(socket);
+
+      // TODO: add subscriptions for the incoming events
+
+      return () => {
+        // TODO: remove subscriptions
+
+        socket.close();
+      };
+    },
+    [],
+  );
+
+  const completeSignOut = async (): Promise<void> => {
+    if (connection.current.connected) {
+      console.log('is here')
+      connection.current.emit(EVENTS.COMPLETE_LOGOUT);
+    }
+
+    try {
+      await axios({
+        headers: {
+          Authorization: token,
+        },
+        method: 'GET',
+        url: `${BACKEND_URL}/api/auth/signout/complete`,
+      });
+    } catch {
+      deleteCookie();
+      deleteToken();
+    } finally {
+      deleteCookie();
+      deleteToken();
+      router.push('/signin');
+    }
+  };
 
   const signOut = (): Promise<boolean> => {
     deleteCookie();
@@ -96,6 +162,12 @@ export default function Home(
         type="button"
       >
         SIGN OUT
+      </button>
+      <button
+        onClick={completeSignOut}
+        type="button"
+      >
+        COMPLETE SIGN OUT
       </button>
     </div>
   );
