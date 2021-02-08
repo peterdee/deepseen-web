@@ -1,6 +1,4 @@
-export const {
-  NEXT_PUBLIC_BACKEND_URL: BACKEND_URL = 'http://localhost:1337',
-} = process.env;
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:1337';
 
 export const CLIENT_TYPES = {
   desktop: 'desktop',
@@ -25,6 +23,10 @@ export const ERROR_MESSAGES = {
   tooManyRequests: 'You are suspended from this functionality!',
 } as const;
 
+export const EVENTS = {
+  COMPLETE_LOGOUT: 'COMPLETE_LOGOUT',
+} as const;
+
 export const RESPONSE_MESSAGES = {
   accessDenied: 'ACCESS_DENIED',
   emailAlreadyInUse: 'EMAIL_ALREADY_IN_USE',
@@ -35,3 +37,5 @@ export const RESPONSE_MESSAGES = {
 } as const;
 
 export const TOKEN_NAME = 'token';
+
+export const WEBSOCKETS_URL = process.env.NEXT_PUBLIC_WEBSOCKETS_URL || 'http://localhost:9500';

@@ -13,6 +13,7 @@ import {
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
+import { saveData } from '@/utilities/data-actions';
 import saveToken from '@/utilities/save-token';
 import setCookie from '@/utilities/set-cookie';
 import { SignUpDataCollection } from '@/@types/signup';
@@ -115,10 +116,11 @@ export default function SignUp() {
         return setFormError(ERROR_MESSAGES.oops);
       }
 
-      const { token } = responseData;
+      const { token, user } = responseData;
 
       // set token as cookie & save token in localStorage
       setCookie(token);
+      saveData('user', user);
       saveToken(token);
 
       return router.push('/home');
