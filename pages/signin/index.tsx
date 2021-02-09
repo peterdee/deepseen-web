@@ -3,7 +3,6 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import AuthErrorModal from '@/components/AuthErrorModal';
 import {
   BACKEND_URL,
   CLIENT_TYPE,
@@ -13,6 +12,7 @@ import {
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
+import ModalFrame from '@/components/ModalFrame';
 import { saveData } from '@/utilities/data-actions';
 import saveToken from '@/utilities/save-token';
 import setCookie from '@/utilities/set-cookie';
@@ -40,7 +40,7 @@ export default function SignIn() {
 
   const closeModal = () => setShowModal(false);
 
-  const handleBackButton = () => router.back();
+  const handleBackButton = () => router.push('/');
   const handleCreateAccountButton = () => router.push('/signup');
   const handleForgotPasswordButton = () => router.push('/recovery');
 
@@ -131,7 +131,7 @@ export default function SignIn() {
         <Loader />
       ) }
       { showModal && (
-        <AuthErrorModal
+        <ModalFrame
           closeModal={closeModal}
           message={ERROR_MESSAGES.tooManyRequests}
         />

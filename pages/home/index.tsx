@@ -13,12 +13,18 @@ import {
   BACKEND_URL,
   CLIENT_TYPES,
   COOKIE_NAME,
+  ERROR_MESSAGES,
   EVENTS,
   WEBSOCKETS_URL,
 } from '@/configuration/index';
 import deleteCookie from '@/utilities/delete-cookie';
 import deleteToken from '@/utilities/delete-token';
-import { NewClientConnectedData, RoomStatusData } from '@/@types/home';
+import {
+  ClientDisconnectedData,
+  NewClientConnectedData,
+  RoomStatusData,
+} from '@/@types/home';
+import ModalFrame from '@/components/ModalFrame';
 import { saveData } from '@/utilities/data-actions';
 import useRefState from '@/hooks/use-ref-state';
 
@@ -74,6 +80,7 @@ export default function Home({
   const [connection, setConnection] = useRefState({} as Socket);
   const [desktopConnected, setDesktopConnected] = useState<boolean>(false);
   const [mobileConnected, setMobileConnected] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
   const [webConnected, setWebConnected] = useState<boolean>(false);
 
   useEffect(
@@ -89,10 +96,46 @@ export default function Home({
     [],
   );
 
+  // handle incoming CLIENT_DISCONNECTED event
+  const clientDisconnected = useCallback(
+    (data: ClientDisconnectedData): void => {
+      const { client = '' } = data;
+      if (client === CLIENT_TYPES.desktop) {
+        setDesktopConnected(false);
+      }
+      if (client === CLIENT_TYPES.mobile) {
+        setMobileConnected(false);
+      }
+    },
+    [setDesktopConnected, setMobileConnected],
+  );
+
   // handle incoming connect event
   const connect = useCallback(
     (): void => setWebConnected(true),
     [setWebConnected],
+  );
+
+  // handle incoming connect_error event (happens if token is invalid)
+  const connectError = useCallback(
+    () => {
+      if (connection?.current?.connected) {
+        connection.current.disconnect();
+      }
+
+      setDesktopConnected(false);
+      setMobileConnected(false);
+      setWebConnected(false);
+      setModalMessage(ERROR_MESSAGES.connectError);
+      return setConnection({} as Socket);
+    },
+    [
+      setConnection,
+      setDesktopConnected,
+      setMobileConnected,
+      setModalMessage,
+      setWebConnected,
+    ],
   );
 
   // handle incoming disconnect event
@@ -107,6 +150,12 @@ export default function Home({
       setMobileConnected,
       setWebConnected,
     ],
+  );
+
+  // handle incoming INTERNAL_SERVER_ERROR event
+  const internalServerError = useCallback(
+    (): void => setModalMessage(ERROR_MESSAGES.oops),
+    [setModalMessage],
   );
 
   // handle incoming NEW_CLIENT_CONNECTED event
@@ -151,10 +200,10 @@ export default function Home({
       );
 
       if (desktop.length > 0) {
-        return setDesktopConnected(true);
+        setDesktopConnected(true);
       }
       if (mobile.length > 0) {
-        return setMobileConnected(true);
+        setMobileConnected(true);
       }
 
       return false;
@@ -180,14 +229,19 @@ export default function Home({
 
       setConnection(socket);
 
+      socket.on(EVENTS.CLIENT_DISCONNECTED, clientDisconnected);
       socket.on(EVENTS.connect, connect);
+      socket.on(EVENTS.connect_error, connectError);
       socket.on(EVENTS.disconnect, disconnect);
+      socket.on(EVENTS.INTERNAL_SERVER_ERROR, internalServerError);
       socket.on(EVENTS.NEW_CLIENT_CONNECTED, newClientConnected);
       socket.on(EVENTS.ROOM_STATUS, roomStatus);
 
       return () => {
+        socket.off(EVENTS.CLIENT_DISCONNECTED, clientDisconnected);
         socket.off(EVENTS.connect, connect);
         socket.off(EVENTS.disconnect, disconnect);
+        socket.off(EVENTS.INTERNAL_SERVER_ERROR, internalServerError);
         socket.off(EVENTS.NEW_CLIENT_CONNECTED, newClientConnected);
         socket.off(EVENTS.ROOM_STATUS, roomStatus);
 
@@ -197,8 +251,10 @@ export default function Home({
     [],
   );
 
+  const closeModal = () => setModalMessage('');
+
   const completeSignOut = async (): Promise<boolean> => {
-    if (connection.current.connected) {
+    if (connection?.current?.connected) {
       connection.current.emit(EVENTS.COMPLETE_LOGOUT);
     }
 
@@ -213,11 +269,22 @@ export default function Home({
         method: 'GET',
         url: `${BACKEND_URL}/api/auth/signout/complete`,
       });
-      return router.push('/signin');
+      return router.push('/');
     } catch {
-      return router.push('/signin');
+      return router.push('/');
     }
   };
+
+  const reconnect = useCallback(
+    (): void => {
+      if (connection.current.connected) {
+        connection.current.disconnect();
+      }
+
+      return connection.current.open();
+    },
+    [connection],
+  );
 
   const signOut = (): Promise<boolean> => {
     deleteCookie();
@@ -226,46 +293,62 @@ export default function Home({
   };
 
   return (
-    <div>
-      <h1>
-        This is Home
-      </h1>
-      <h2>
-        { `Hello ${account.firstName} ${account.lastName}!` }
-      </h2>
-      <button
-        onClick={() => router.push('/change-password')}
-        type="button"
-      >
-        Change password
-      </button>
-      <button
-        onClick={() => router.push('/update-profile')}
-        type="button"
-      >
-        Update profile
-      </button>
-      <button
-        onClick={signOut}
-        type="button"
-      >
-        SIGN OUT
-      </button>
-      <button
-        onClick={completeSignOut}
-        type="button"
-      >
-        COMPLETE SIGN OUT
-      </button>
+    <>
+      { modalMessage && (
+        <ModalFrame
+          closeModal={closeModal}
+          message={modalMessage}
+        />
+      ) }
       <div>
-        { `Desktop application is ${desktopConnected ? 'connected' : 'not connected'}` }
+        <h1>
+          This is Home
+        </h1>
+        <h2>
+          { `Hello ${account.firstName} ${account.lastName}!` }
+        </h2>
+        <button
+          onClick={() => router.push('/change-password')}
+          type="button"
+        >
+          Change password
+        </button>
+        <button
+          onClick={() => router.push('/update-profile')}
+          type="button"
+        >
+          Update profile
+        </button>
+        <button
+          onClick={signOut}
+          type="button"
+        >
+          SIGN OUT
+        </button>
+        <button
+          onClick={completeSignOut}
+          type="button"
+        >
+          COMPLETE SIGN OUT
+        </button>
+        <div>
+          { `Desktop application is ${desktopConnected ? 'connected' : 'not connected'}` }
+        </div>
+        <div>
+          { `Mobile application is ${mobileConnected ? 'connected' : 'not connected'}` }
+        </div>
+        <div>
+          { webConnected && 'Web application is connected' }
+          { !webConnected && (
+            <button
+              onClick={reconnect}
+              type="button"
+            >
+              Reconnect
+            </button>
+          ) }
+        </div>
       </div>
-      <div>
-        { `Mobile application is ${mobileConnected ? 'connected' : 'not connected'}` }
-      </div>
-      <div>
-        { `Web application is ${webConnected ? 'connected' : 'not connected'}` }
-      </div>
-    </div>
+    </>
   );
 }

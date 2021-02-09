@@ -13,6 +13,7 @@ export const COOKIE_NAME = 'token';
 export const ERROR_MESSAGES = {
   accessDenied: 'Access denied!',
   accountNotFound: 'Account not found!',
+  connectError: 'Error connecting to the server. Please sign out and sign in again!',
   emailAlreadyInUse: 'Email address is already in use!',
   invalidPasswordConfirmation: 'Password confirmation is invalid!',
   invalidRecoveryLink: 'Recovery link is invalid!',
@@ -24,9 +25,12 @@ export const ERROR_MESSAGES = {
 } as const;
 
 export const EVENTS = {
+  CLIENT_DISCONNECTED: 'CLIENT_DISCONNECTED',
   connect: 'connect',
+  connect_error: 'connect_error',
   disconnect: 'disconnect',
   COMPLETE_LOGOUT: 'COMPLETE_LOGOUT',
+  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
   NEW_CLIENT_CONNECTED: 'NEW_CLIENT_CONNECTED',
   ROOM_STATUS: 'ROOM_STATUS',
 } as const;

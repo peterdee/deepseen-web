@@ -6,3 +6,12 @@
   min-height: calc(100vh - var(--footer-height));
   padding: 0 0.5rem;
 }
+.logoContainer {
+  margin: 0 auto 32px auto;
+}
+.logo {
+  background-image: url('/assets/logo.svg');
+  background-size: cover;
+  height: 128px;
+  width: 128px;
+}
