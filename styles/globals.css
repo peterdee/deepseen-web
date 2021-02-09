@@ -73,6 +73,9 @@ a, a:visited {
 .text-center {
   text-align: center;
 }
+.w100 {
+  width: 100%;
+}
 
 .centered {
   display: flex;

@@ -3,11 +3,11 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
-import AuthErrorModal from '@/components/AuthErrorModal';
 import { BACKEND_URL, ERROR_MESSAGES } from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
+import ModalFrame from '@/components/ModalFrame';
 
 import EmailForm from './components/EmailForm';
 import styles from './Recovery.module.css';
@@ -25,7 +25,7 @@ export default function Recovery() {
 
   const closeModal = () => setShowModal(false);
 
-  const handleBackButton = () => router.back();
+  const handleBackButton = () => router.push('/');
 
   const handleInput = (value: string): void => {
     setEmail(value);
@@ -76,7 +76,7 @@ export default function Recovery() {
         <Loader />
       ) }
       { showModal && (
-        <AuthErrorModal
+        <ModalFrame
           closeModal={closeModal}
           message={ERROR_MESSAGES.tooManyRequests}
         />

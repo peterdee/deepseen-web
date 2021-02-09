@@ -4,6 +4,8 @@ export interface ClientRecord {
   userId: string;
 }
 
+export type ClientDisconnectedData = Pick<ClientRecord, 'client'>;
+
 export type NewClientConnectedData = Pick<ClientRecord, 'client'>;
 
 export interface RoomStatusData {

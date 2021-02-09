@@ -17,7 +17,10 @@ function Index() {
       </Head>
 
       <main className="centered noselect">
-        <h1>
+        <div className={styles.logoContainer}>
+          <div className={styles.logo} />
+        </div>
+        <h1 className="text-center">
           Deepseen web application is under construction
         </h1>
         <div className="row justify-content-center mt-16">
