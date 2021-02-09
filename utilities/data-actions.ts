@@ -1,6 +1,8 @@
-type Data = number | string | object | null;
+import { User } from '@/@types/user';
 
-export const getData = (key: string): Data | null => {
+type Data = number | string | object | null | User;
+
+export const getData = <T>(key: string): T | null => {
   const parsed = JSON.parse(localStorage.getItem(key));
   return parsed.data || null;
 };

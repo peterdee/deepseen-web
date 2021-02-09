@@ -24,6 +24,7 @@ import {
   NewClientConnectedData,
   RoomStatusData,
 } from '@/@types/home';
+import Header from '@/components/Header';
 import ModalFrame from '@/components/ModalFrame';
 import { saveData } from '@/utilities/data-actions';
 import useRefState from '@/hooks/use-ref-state';
@@ -294,6 +295,7 @@ export default function Home({
 
   return (
     <>
+      <Header authenticated={!!token} />
       { modalMessage && (
         <ModalFrame
           closeModal={closeModal}
