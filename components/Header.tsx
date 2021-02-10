@@ -35,6 +35,16 @@ function Header({ authenticated }: HeaderProps) {
     [router],
   );
 
+  const handleSignIn = useCallback(
+    () => router.push('/signin'),
+    [router],
+  );
+
+  const handleSignUp = useCallback(
+    () => router.push('/signup'),
+    [router],
+  );
+
   return (
     <div className={styles.headerWrap}>
       <div className={styles.headerLeft}>
@@ -47,7 +57,23 @@ function Header({ authenticated }: HeaderProps) {
         </button>
       </div>
       <div>
-        { userName }
+        { authenticated && userName }
+        { !authenticated && (
+          <>
+            <button
+              onClick={handleSignIn}
+              type="button"
+            >
+              SIGN IN
+            </button>
+            <button
+              onClick={handleSignUp}
+              type="button"
+            >
+              SIGN UP
+            </button>
+          </>
+        ) }
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import { saveData } from '@/utilities/data-actions';
 import saveToken from '@/utilities/save-token';
 import setCookie from '@/utilities/set-cookie';
 import { SignInDataCollection } from '@/@types/signin';
+import { User } from '@/@types/user';
 
 import SignInForm from './components/SignInForm';
 import styles from './SignIn.module.css';
@@ -100,7 +101,7 @@ export default function SignIn() {
 
       // set token as cookie & save token in localStorage
       setCookie(token);
-      saveData('user', user);
+      saveData<User>('user', user);
       saveToken(token);
 
       return router.push('/home');

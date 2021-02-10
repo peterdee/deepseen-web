@@ -1,13 +1,13 @@
-import { User } from '@/@types/user';
-
-type Data = number | string | object | null | User;
-
 export const getData = <T>(key: string): T | null => {
-  const parsed = JSON.parse(localStorage.getItem(key));
-  return parsed.data || null;
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key));
+    return parsed?.data ?? null;
+  } catch {
+    return null;
+  }
 };
 
-export const saveData = (key: string, value: Data): void => localStorage.setItem(
+export const saveData = <T>(key: string, value: T): void => localStorage.setItem(
   key,
   JSON.stringify({
     data: value,

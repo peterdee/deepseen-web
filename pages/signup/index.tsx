@@ -17,6 +17,7 @@ import { saveData } from '@/utilities/data-actions';
 import saveToken from '@/utilities/save-token';
 import setCookie from '@/utilities/set-cookie';
 import { SignUpDataCollection } from '@/@types/signup';
+import { User } from '@/@types/user';
 
 import SignUpForm from './components/SignUpForm';
 import styles from './SignUp.module.css';
@@ -120,7 +121,7 @@ export default function SignUp() {
 
       // set token as cookie & save token in localStorage
       setCookie(token);
-      saveData('user', user);
+      saveData<User>('user', user);
       saveToken(token);
 
       return router.push('/home');
