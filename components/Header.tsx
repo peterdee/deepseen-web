@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { getData } from '@/utilities/data-actions';
 import { User } from '@/@types/user';
 
+import LinkButton from './LinkButton';
 import styles from './styles.module.css';
 
 interface HeaderProps {
@@ -30,27 +31,18 @@ function Header({ authenticated }: HeaderProps) {
     [],
   );
 
-  const handleLogoClick = useCallback(
-    () => router.push('/'),
-    [router],
-  );
+  const handleLogo = useCallback(() => router.push('/'), [router]);
 
-  const handleSignIn = useCallback(
-    () => router.push('/signin'),
-    [router],
-  );
+  const handleSignIn = useCallback(() => router.push('/signin'), [router]);
 
-  const handleSignUp = useCallback(
-    () => router.push('/signup'),
-    [router],
-  );
+  const handleSignUp = useCallback(() => router.push('/signup'), [router]);
 
   return (
     <div className={styles.headerWrap}>
       <div className={styles.headerLeft}>
         <button
           className={styles.headerLogo}
-          onClick={handleLogoClick}
+          onClick={handleLogo}
           type="button"
         >
           { ' ' }
@@ -60,18 +52,16 @@ function Header({ authenticated }: HeaderProps) {
         { authenticated && userName }
         { !authenticated && (
           <>
-            <button
+            <LinkButton
+              classes={['mr-16']}
               onClick={handleSignIn}
-              type="button"
-            >
-              SIGN IN
-            </button>
-            <button
+              text="SIGN IN"
+            />
+            <LinkButton
+              classes={[styles.signUp]}
               onClick={handleSignUp}
-              type="button"
-            >
-              SIGN UP
-            </button>
+              text="SIGN UP"
+            />
           </>
         ) }
       </div>

@@ -1,14 +1,45 @@
 import React, { memo } from 'react';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { parse } from 'cookie';
 
-import LinkButton from '@/components/LinkButton';
-
+import { COOKIE_NAME } from '@/configuration/index';
+import Header from '@/components/Header';
 import styles from '@/styles/Index.module.css';
 
-function Index() {
-  const router = useRouter();
+export const getServerSideProps: GetServerSideProps = async (context): Promise<any> => {
+  const cookies = context.req.headers.cookie;
+  if (!cookies) {
+    return {
+      props: {
+        authenticated: false,
+      },
+    };
+  }
 
+  try {
+    const parsedCookies = parse(cookies);
+    if (!(parsedCookies && parsedCookies[COOKIE_NAME])) {
+      return {
+        authenticated: false,
+      };
+    }
+
+    return {
+      props: {
+        authenticated: true,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        authenticated: false,
+      },
+    };
+  }
+};
+
+function Index({ authenticated }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className={styles.container}>
       <Head>
@@ -16,6 +47,7 @@ function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Header authenticated={authenticated} />
       <main className="centered noselect">
         <div className={styles.logoContainer}>
           <div className={styles.logo} />
@@ -23,17 +55,6 @@ function Index() {
         <h1 className="text-center">
           Deepseen web application is under construction
         </h1>
-        <div className="row justify-content-center mt-16">
-          <LinkButton
-            onClick={() => router.push('/signin')}
-            text="Sign in"
-          />
-          <span className="ml-16 mr-16">|</span>
-          <LinkButton
-            onClick={() => router.push('/signup')}
-            text="Sign up"
-          />
-        </div>
       </main>
     </div>
   );

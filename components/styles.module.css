@@ -152,6 +152,7 @@
   height: var(--header-height);
   justify-content: space-between;
   margin: 16px;
+  width: 100%;
 }
 .headerLeft {
   align-items: center;
@@ -174,4 +175,17 @@
 .headerLogo:hover {
   box-shadow: 0 0 8px 4px var(--accent);
   transition: box-shadow 500ms ease-in-out;
+}
+.signUp {
+  background-color: transparent;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  padding: 4px 8px;
+  transition: background-color 250ms ease-out, color 250ms ease-in;
+}
+.signUp:hover {
+  background-color: var(--accent);
+  color: var(--app-text-dark);
+  transition: background-color 250ms ease-in, color 250ms ease-out;
 }
