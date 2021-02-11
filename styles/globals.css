@@ -65,6 +65,9 @@ a, a:visited {
 .ml-16 {
   margin-left: 16px;
 }
+.mr-8 {
+  margin-right: 8px;
+}
 .mr-16 {
   margin-right: 16px;
 }
@@ -81,7 +84,7 @@ a, a:visited {
 .centered {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--footer-height));
+  height: calc(100vh - (var(--footer-height) + var(--header-height) + 32px));
   justify-content: center;
   margin: 0 auto;
 }
