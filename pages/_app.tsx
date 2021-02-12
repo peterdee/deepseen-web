@@ -5,7 +5,7 @@ import '../styles/globals.css';
 
 import Footer from '../components/Footer';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   return (
     <>
       <div className="container">

@@ -14,7 +14,7 @@ import styles from './Validate.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
-export default function Validate() {
+export default function Validate(): React.ReactElement {
   const router = useRouter();
   const { index: code = '' } = router.query;
 

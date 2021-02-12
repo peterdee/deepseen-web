@@ -7,6 +7,7 @@ function LinkButton(props: ButtonProps): React.ReactElement {
   const {
     classes,
     disabled,
+    id,
     onClick,
     text,
   } = props;
@@ -15,6 +16,7 @@ function LinkButton(props: ButtonProps): React.ReactElement {
     <button
       className={`${styles.linkButton} ${classes.join(' ')} noselect`}
       disabled={disabled}
+      id={id}
       onClick={onClick}
       type="button"
     >
@@ -26,6 +28,7 @@ function LinkButton(props: ButtonProps): React.ReactElement {
 LinkButton.defaultProps = {
   classes: [],
   disabled: false,
+  id: '',
   onClick: () => null,
 };
 

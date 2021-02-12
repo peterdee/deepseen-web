@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useRouter } from 'next/router';
 
 import LinkButton from '../components/LinkButton';
 
-export default function NotFound() {
+function NotFound(): React.ReactElement {
   const router = useRouter();
 
   return (
@@ -17,3 +17,5 @@ export default function NotFound() {
     </div>
   );
 }
+
+export default memo(NotFound);

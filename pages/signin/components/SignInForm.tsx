@@ -6,7 +6,7 @@ import StyledInput from '@/components/StyledInput';
 
 import styles from '../SignIn.module.css';
 
-export default function SignInForm(props: SignInFormProps) {
+export default function SignInForm(props: SignInFormProps): React.ReactElement {
   const {
     email,
     emailError,

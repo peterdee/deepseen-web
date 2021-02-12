@@ -6,9 +6,12 @@ import React, {
 } from 'react';
 import { useRouter } from 'next/router';
 
+import deleteCookie from '@/utilities/delete-cookie';
+import deleteToken from '@/utilities/delete-token';
 import { getData } from '@/utilities/data-actions';
 import { User } from '@/@types/user';
 
+import HeaderMenu from './HeaderMenu';
 import LinkButton from './LinkButton';
 import styles from './styles.module.css';
 
@@ -16,7 +19,8 @@ interface HeaderProps {
   authenticated?: boolean;
 }
 
-function Header({ authenticated }: HeaderProps) {
+function Header({ authenticated }: HeaderProps): React.ReactElement {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>('');
 
   const router = useRouter();
@@ -31,11 +35,21 @@ function Header({ authenticated }: HeaderProps) {
     [],
   );
 
+  const handleHome = useCallback(() => router.push('/home'), [router]);
   const handleLogo = useCallback(() => router.push('/'), [router]);
-
   const handleSignIn = useCallback(() => router.push('/signin'), [router]);
-
   const handleSignUp = useCallback(() => router.push('/signup'), [router]);
+
+  const handleMenu = useCallback(() => setShowMenu((state) => !state), [setShowMenu]);
+
+  const handleSignOut = useCallback(
+    () => {
+      deleteCookie();
+      deleteToken();
+      return router.push('/');
+    },
+    [router],
+  );
 
   return (
     <div className={styles.headerWrap}>
@@ -49,7 +63,20 @@ function Header({ authenticated }: HeaderProps) {
         </button>
       </div>
       <div>
-        { authenticated && userName }
+        { showMenu && (
+          <HeaderMenu
+            handleHome={handleHome}
+            handleSignOut={handleSignOut}
+          />
+        ) }
+        { authenticated && (
+          <LinkButton
+            classes={[styles.signUp]}
+            id="menu"
+            onClick={handleMenu}
+            text={userName}
+          />
+        ) }
         { !authenticated && (
           <>
             <LinkButton

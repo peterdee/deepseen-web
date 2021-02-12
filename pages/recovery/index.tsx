@@ -14,7 +14,7 @@ import styles from './Recovery.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
-export default function Recovery() {
+export default function Recovery(): React.ReactElement {
   const [linkSent, setLinkSent] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [formError, setFormError] = useState<string>('');

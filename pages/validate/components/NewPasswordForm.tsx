@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { NewPasswordFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
@@ -6,7 +6,7 @@ import StyledInput from '@/components/StyledInput';
 
 import styles from '../Validate.module.css';
 
-export default function NewPasswordForm(props: NewPasswordFormProps) {
+function NewPasswordForm(props: NewPasswordFormProps): React.ReactElement {
   const {
     formError,
     handleInput,
@@ -52,3 +52,5 @@ export default function NewPasswordForm(props: NewPasswordFormProps) {
     </form>
   );
 }
+
+export default memo(NewPasswordForm);
