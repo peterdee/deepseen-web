@@ -39,7 +39,9 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
   }
 };
 
-function Index({ authenticated }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function Index({
+  authenticated,
+}: InferGetServerSidePropsType<typeof getServerSideProps>): React.ReactElement {
   return (
     <div className={styles.container}>
       <Head>

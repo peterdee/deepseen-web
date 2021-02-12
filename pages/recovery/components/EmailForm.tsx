@@ -6,7 +6,7 @@ import StyledInput from '@/components/StyledInput';
 
 import styles from '../Recovery.module.css';
 
-export default function EmailForm(props: EmailFormProps) {
+export default function EmailForm(props: EmailFormProps): React.ReactElement {
   const {
     email,
     formError,

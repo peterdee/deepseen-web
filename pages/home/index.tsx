@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (context): Promise<a
 export default function Home({
   account,
   token,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>): React.ReactElement {
   const router = useRouter();
 
   const [connection, setConnection] = useRefState({} as Socket);

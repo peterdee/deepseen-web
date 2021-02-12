@@ -24,7 +24,7 @@ import styles from './SignUp.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
-export default function SignUp() {
+export default function SignUp(): React.ReactElement {
   const [data, setData] = useState<SignUpDataCollection<string>>({
     email: '',
     firstName: '',

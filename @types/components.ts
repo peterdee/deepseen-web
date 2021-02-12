@@ -3,6 +3,7 @@ import React from 'react';
 export interface ButtonProps {
   classes?: string[];
   disabled?: boolean;
+  id?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => any;
   text: string;
 }

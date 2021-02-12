@@ -24,7 +24,7 @@ import styles from './SignIn.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
-export default function SignIn() {
+export default function SignIn(): React.ReactElement {
   const [data, setData] = useState<SignInDataCollection<string>>({
     email: '',
     password: '',

@@ -176,6 +176,18 @@
   box-shadow: 0 0 8px 4px var(--accent);
   transition: box-shadow 500ms ease-in-out;
 }
+.headerMenuWrap {
+  animation: modal 0.25s ease-out forwards;
+  background-color: var(--accent-muted);
+  display: flex;
+  flex-direction: column;
+  height: 64px;
+  padding: 16px;
+  position: absolute;
+  right: 0;
+  top: calc(var(--header-height) + 16px);
+  width: 128px;
+}
 .signUp {
   background-color: transparent;
   border: 2px solid var(--accent);
