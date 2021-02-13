@@ -66,6 +66,7 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
         { showMenu && (
           <HeaderMenu
             handleHome={handleHome}
+            handleOutsideClick={handleMenu}
             handleSignOut={handleSignOut}
           />
         ) }
