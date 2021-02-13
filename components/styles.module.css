@@ -177,16 +177,28 @@
   transition: box-shadow 500ms ease-in-out;
 }
 .headerMenuWrap {
+  align-items: flex-end;
   animation: modal 0.25s ease-out forwards;
-  background-color: var(--accent-muted);
+  background-color: var(--input-background);
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: 64px;
+  height: 74px;
+  justify-content: space-between;
   padding: 16px;
   position: absolute;
   right: 0;
   top: calc(var(--header-height) + 16px);
-  width: 128px;
+  width: 112px;
+}
+.headerMenuItem {
+  border-bottom: 2px solid var(--input-background);
+  color: var(--app-text);
+  transition: border-bottom 250ms ease-in;
+}
+.headerMenuItem:hover {
+  border-bottom: 2px solid var(--accent);
+  transition: border-bottom 250ms ease-out;
 }
 .signUp {
   background-color: transparent;

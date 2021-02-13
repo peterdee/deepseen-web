@@ -2,6 +2,7 @@ import React, {
   memo,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
@@ -24,9 +25,10 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
   const [userName, setUserName] = useState<string>('');
 
   const router = useRouter();
+  const controlRef = useRef<HTMLDivElement>(null);
 
   useEffect(
-    () => {
+    (): void => {
       if (authenticated) {
         const user = getData<User>('user');
         setUserName(`${user.firstName || ''} ${user.lastName || ''}`);
@@ -35,20 +37,27 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
     [],
   );
 
-  const handleHome = useCallback(() => router.push('/home'), [router]);
-  const handleLogo = useCallback(() => router.push('/'), [router]);
-  const handleSignIn = useCallback(() => router.push('/signin'), [router]);
-  const handleSignUp = useCallback(() => router.push('/signup'), [router]);
+  const handleHome = useCallback(
+    (): Promise<boolean> => {
+      setShowMenu(false);
+      return router.push('/home');
+    },
+    [router, setShowMenu],
+  );
+  const handleLogo = useCallback((): Promise<boolean> => router.push('/'), [router]);
+  const handleSignIn = useCallback((): Promise<boolean> => router.push('/signin'), [router]);
+  const handleSignUp = useCallback((): Promise<boolean> => router.push('/signup'), [router]);
 
-  const handleMenu = useCallback(() => setShowMenu((state) => !state), [setShowMenu]);
+  const handleMenu = useCallback((): void => setShowMenu((state) => !state), [setShowMenu]);
 
   const handleSignOut = useCallback(
-    () => {
+    (): Promise<boolean> => {
       deleteCookie();
       deleteToken();
+      setShowMenu(false);
       return router.push('/');
     },
-    [router],
+    [router, setShowMenu],
   );
 
   return (
@@ -65,18 +74,21 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
       <div>
         { showMenu && (
           <HeaderMenu
+            controlRef={controlRef}
             handleHome={handleHome}
             handleOutsideClick={handleMenu}
             handleSignOut={handleSignOut}
           />
         ) }
         { authenticated && (
-          <LinkButton
-            classes={[styles.signUp]}
-            id="menu"
-            onClick={handleMenu}
-            text={userName}
-          />
+          <div ref={controlRef}>
+            <LinkButton
+              classes={[styles.signUp]}
+              id="menu"
+              onClick={handleMenu}
+              text={userName}
+            />
+          </div>
         ) }
         { !authenticated && (
           <>
