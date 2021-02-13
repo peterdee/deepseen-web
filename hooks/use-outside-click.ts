@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
 
+type ControlRef = React.RefObject<HTMLDivElement>;
 type Handler = () => void;
-type Ref = React.RefObject<HTMLDivElement>;
+type TargetRef = React.RefObject<HTMLDivElement>;
 
-export default function useOutsideClick(ref: Ref, handler: Handler): void {
+export default function useOutsideClick(
+  targetRef: TargetRef,
+  controlRef: ControlRef,
+  handler: Handler,
+): void {
   useEffect(
     () => {
       function handleClickOutside(event): void {
-        if (ref.current && !ref.current.contains(event.target)) {
+        if (targetRef.current && !targetRef.current.contains(event.target)
+          && controlRef.current && !controlRef.current.contains(event.target)) {
           handler();
         }
       }
@@ -18,6 +24,10 @@ export default function useOutsideClick(ref: Ref, handler: Handler): void {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     },
-    [ref],
+    [
+      controlRef,
+      handler,
+      targetRef,
+    ],
   );
 }

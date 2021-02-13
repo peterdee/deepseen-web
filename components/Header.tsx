@@ -2,6 +2,7 @@ import React, {
   memo,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
@@ -24,6 +25,7 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
   const [userName, setUserName] = useState<string>('');
 
   const router = useRouter();
+  const controlRef = useRef<HTMLDivElement>(null);
 
   useEffect(
     () => {
@@ -65,18 +67,21 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
       <div>
         { showMenu && (
           <HeaderMenu
+            controlRef={controlRef}
             handleHome={handleHome}
             handleOutsideClick={handleMenu}
             handleSignOut={handleSignOut}
           />
         ) }
         { authenticated && (
-          <LinkButton
-            classes={[styles.signUp]}
-            id="menu"
-            onClick={handleMenu}
-            text={userName}
-          />
+          <div ref={controlRef}>
+            <LinkButton
+              classes={[styles.signUp]}
+              id="menu"
+              onClick={handleMenu}
+              text={userName}
+            />
+          </div>
         ) }
         { !authenticated && (
           <>

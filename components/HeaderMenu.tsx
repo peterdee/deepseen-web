@@ -6,24 +6,26 @@ import LinkButton from './LinkButton';
 import styles from './styles.module.css';
 
 interface HeaderMenuProps {
+  controlRef: React.RefObject<HTMLDivElement>;
   handleHome: () => Promise<boolean>;
   handleOutsideClick: () => void;
   handleSignOut: () => Promise<boolean>;
 }
 
 function HeaderMenu({
+  controlRef,
   handleHome,
   handleOutsideClick,
   handleSignOut,
 }: HeaderMenuProps): React.ReactElement {
-  const menuRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(menuRef, handleOutsideClick);
+  useOutsideClick(targetRef, controlRef, handleOutsideClick);
 
   return (
     <div
       className={styles.headerMenuWrap}
-      ref={menuRef}
+      ref={targetRef}
     >
       <LinkButton
         onClick={handleHome}
