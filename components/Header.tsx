@@ -28,7 +28,7 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
   const controlRef = useRef<HTMLDivElement>(null);
 
   useEffect(
-    () => {
+    (): void => {
       if (authenticated) {
         const user = getData<User>('user');
         setUserName(`${user.firstName || ''} ${user.lastName || ''}`);
@@ -37,20 +37,27 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
     [],
   );
 
-  const handleHome = useCallback(() => router.push('/home'), [router]);
-  const handleLogo = useCallback(() => router.push('/'), [router]);
-  const handleSignIn = useCallback(() => router.push('/signin'), [router]);
-  const handleSignUp = useCallback(() => router.push('/signup'), [router]);
+  const handleHome = useCallback(
+    (): Promise<boolean> => {
+      setShowMenu(false);
+      return router.push('/home');
+    },
+    [router, setShowMenu],
+  );
+  const handleLogo = useCallback((): Promise<boolean> => router.push('/'), [router]);
+  const handleSignIn = useCallback((): Promise<boolean> => router.push('/signin'), [router]);
+  const handleSignUp = useCallback((): Promise<boolean> => router.push('/signup'), [router]);
 
-  const handleMenu = useCallback(() => setShowMenu((state) => !state), [setShowMenu]);
+  const handleMenu = useCallback((): void => setShowMenu((state) => !state), [setShowMenu]);
 
   const handleSignOut = useCallback(
-    () => {
+    (): Promise<boolean> => {
       deleteCookie();
       deleteToken();
+      setShowMenu(false);
       return router.push('/');
     },
-    [router],
+    [router, setShowMenu],
   );
 
   return (

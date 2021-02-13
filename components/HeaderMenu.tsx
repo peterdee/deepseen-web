@@ -28,10 +28,12 @@ function HeaderMenu({
       ref={targetRef}
     >
       <LinkButton
+        classes={[styles.headerMenuItem]}
         onClick={handleHome}
         text="HOME"
       />
       <LinkButton
+        classes={[styles.headerMenuItem]}
         onClick={handleSignOut}
         text="SIGN OUT"
       />
