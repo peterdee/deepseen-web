@@ -7,6 +7,15 @@ export interface FormProps {
   loading: boolean;
 }
 
+export interface ContactFormProps extends FormProps {
+  email: string;
+  emailError: boolean;
+  message: string;
+  messageError: boolean;
+  name: string;
+  nameError: boolean;
+}
+
 export interface EmailFormProps extends FormProps {
   email: string;
 }
