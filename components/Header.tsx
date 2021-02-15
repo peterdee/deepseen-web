@@ -44,7 +44,9 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
     },
     [router, setShowMenu],
   );
+  const handleDownload = useCallback((): Promise<boolean> => router.push('/download'), [router]);
   const handleLogo = useCallback((): Promise<boolean> => router.push('/'), [router]);
+  const handleProduct = useCallback((): Promise<boolean> => router.push('/product'), [router]);
   const handleSignIn = useCallback((): Promise<boolean> => router.push('/signin'), [router]);
   const handleSignUp = useCallback((): Promise<boolean> => router.push('/signup'), [router]);
 
@@ -70,6 +72,16 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
         >
           { ' ' }
         </button>
+        <LinkButton
+          classes={['ml-16']}
+          onClick={handleProduct}
+          text="PRODUCT"
+        />
+        <LinkButton
+          classes={['ml-16']}
+          onClick={handleDownload}
+          text="DOWNLOAD"
+        />
       </div>
       <div>
         { showMenu && (

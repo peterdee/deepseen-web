@@ -18,6 +18,18 @@ function Footer(): React.ReactElement {
           Contact
         </a>
       </span>
+      <span className="ml-16 mr-16">|</span>
+      <span>
+        <a href="/about">
+          About Deepseen
+        </a>
+      </span>
+      <span className="ml-16 mr-16">|</span>
+      <span>
+        <a href="/privacy">
+          Privacy Policy
+        </a>
+      </span>
     </footer>
   );
 }

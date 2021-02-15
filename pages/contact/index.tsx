@@ -16,7 +16,7 @@ import ModalFrame from '@/components/ModalFrame';
 import { User } from '@/@types/user';
 
 import ContactForm from './components/ContactForm';
-import styles from './Contact.module.css';
+// import styles from './Contact.module.css';
 
 interface DataCollection<T> {
   email: T;
@@ -64,7 +64,7 @@ export default function Contact({
 
   const closeModal = () => setShowModal(false);
 
-  const handleBackButton = () => router.push('/');
+  const handleBackButton = () => router.back();
 
   const handleInput = (value: string, name: string): void => {
     setData((state) => ({
@@ -132,15 +132,15 @@ export default function Contact({
           message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
-      <div className={`col ${styles.content}`}>
+      <div className="col content">
         { messageSent && (
           <h1 className="text-center noselect">
-            Thank you! Your message was sent!
+            Your message has been sent!
           </h1>
         ) }
         { !messageSent && (
           <>
-            <div className={`${styles.header} noselect`}>
+            <div className="content-header noselect">
               CONTACT
             </div>
             <ContactForm

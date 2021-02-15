@@ -3,6 +3,7 @@ import React from 'react';
 import { ContactFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
+import StyledTextarea from '@/components/StyledTextarea';
 
 import styles from '../Contact.module.css';
 
@@ -43,13 +44,12 @@ export default function EmailForm(props: ContactFormProps): React.ReactElement {
         type="email"
         value={email}
       />
-      <StyledInput
+      <StyledTextarea
         disabled={loading}
         error={messageError}
         name="message"
         onChange={handleInput}
         placeholder="Message"
-        type="text"
         value={message}
       />
       <div className={`${styles.errorContainer} noselect`}>

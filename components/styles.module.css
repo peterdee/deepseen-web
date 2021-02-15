@@ -31,7 +31,7 @@
   justify-content: center;
   width: 100%;
 }
-.input {
+.input, .textarea {
   background-color: var(--input-background);
   border: 1px solid var(--input-background);
   border-radius: 4px;
@@ -48,6 +48,11 @@
 .inputError {
   border: 1px solid var(--error);
   transition: border 160ms ease-in;
+}
+.textarea {
+  height: 128px;
+  outline: none;
+  resize: none;
 }
 .linkButton {
   background-color: transparent;

@@ -88,3 +88,30 @@ a, a:visited {
   justify-content: center;
   margin: 0 auto;
 }
+.content {
+  margin: 16px auto;
+}
+.content-header {
+  color: var(--accent);
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+@media (min-width: 1920px) {
+  .content {
+    width: 1024px;
+  }
+}
+@media (min-width: 1440px) {
+  .content {
+    width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .content {
+    width: 480px;
+  }
+}
