@@ -12,12 +12,15 @@ export interface StyledButtonProps extends ButtonProps {
   isSubmit?: boolean;
 }
 
-export interface StyledInputProps {
+export interface StyledProps {
   disabled?: boolean;
   error?: boolean;
   name: string;
   onChange: (value: string, name?: string) => void;
   placeholder?: string;
-  type: string;
   value: string;
+}
+
+export interface StyledInputProps extends StyledProps {
+  type: string;
 }
