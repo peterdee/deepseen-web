@@ -151,19 +151,17 @@
 
 .headerWrap {
   align-items: center;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  font-size: 0.8em;
   height: var(--header-height);
   justify-content: space-between;
-  margin: 16px;
+  margin-top: 16px;
   width: 100%;
 }
-.headerLeft {
+.headerLeft, .headerRight {
   align-items: center;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  margin: 0;
+  width: auto;
 }
 .headerLogo {
   background-image: url('/assets/logo.svg');

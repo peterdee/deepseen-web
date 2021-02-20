@@ -30,7 +30,7 @@ a, a:visited {
   color: var(--accent);
 }
 
-.container {
+.containers {
   background-color: var(--app-background);
   color: var(--app-text);
   display: flex;

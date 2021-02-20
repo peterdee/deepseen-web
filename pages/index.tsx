@@ -12,10 +12,19 @@ function Index({
   authenticated,
 }: InferGetServerSidePropsType<typeof getServerSideProps>): React.ReactElement {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Deepseen</title>
-        <link rel="icon" href="/favicon.ico" />
+        <meta
+          content="width=device-width, initial-scale=1"
+          name="viewport"
+        />
+        <link
+          href="/favicon.ico"
+          rel="icon"
+        />
+        <title>
+          Deepseen
+        </title>
       </Head>
 
       <Header authenticated={authenticated} />
@@ -27,7 +36,7 @@ function Index({
           Deepseen web application is under construction
         </h1>
       </main>
-    </div>
+    </>
   );
 }
 

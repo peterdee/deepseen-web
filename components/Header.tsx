@@ -63,7 +63,7 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
   );
 
   return (
-    <div className={styles.headerWrap}>
+    <div className={`row gx-0 ${styles.headerWrap}`}>
       <div className={styles.headerLeft}>
         <button
           className={styles.headerLogo}
@@ -83,7 +83,7 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
           text="DOWNLOAD"
         />
       </div>
-      <div>
+      <div className={styles.headerRight}>
         { showMenu && (
           <HeaderMenu
             controlRef={controlRef}
