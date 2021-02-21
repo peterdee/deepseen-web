@@ -30,15 +30,6 @@ a, a:visited {
   color: var(--accent);
 }
 
-.containers {
-  background-color: var(--app-background);
-  color: var(--app-text);
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - var(--footer-height));
-  justify-content: flex-start;
-  width: 100%;
-}
 .col {
   display: flex;
   flex-direction: column;
@@ -84,7 +75,7 @@ a, a:visited {
 .centered {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - (var(--footer-height) + var(--header-height) + 32px));
+  height: calc(100vh - (var(--footer-height) + var(--header-height) + 16px));
   justify-content: center;
   margin: 0 auto;
 }

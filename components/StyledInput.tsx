@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 
 function StyledInput(props: StyledInputProps): React.ReactElement {
   const {
+    classes,
     disabled,
     error,
     name,
@@ -16,7 +17,7 @@ function StyledInput(props: StyledInputProps): React.ReactElement {
 
   return (
     <input
-      className={`${styles.input} ${error ? styles.inputError : ''}`}
+      className={`${styles.input} ${classes.join(' ')} ${error ? styles.inputError : ''}`}
       disabled={disabled}
       name={name}
       onChange={(
@@ -30,6 +31,7 @@ function StyledInput(props: StyledInputProps): React.ReactElement {
 }
 
 StyledInput.defaultProps = {
+  classes: [],
   disabled: false,
   error: false,
   placeholder: '',
