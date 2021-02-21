@@ -7,10 +7,10 @@ import { BACKEND_URL, ERROR_MESSAGES } from '@/configuration/index';
 import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
+import styles from '@/styles/Auth.module.css';
 import { ValidateDataCollection } from '@/@types/validate';
 
 import NewPasswordForm from './components/NewPasswordForm';
-import styles from './Validate.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -105,7 +105,7 @@ export default function Validate(): React.ReactElement {
       { loading && (
         <Loader />
       ) }
-      <div className={`col ${styles.content}`}>
+      <div className={styles.content}>
         { codeAccepted && (
           <h1 className="text-center noselect">
             Your password is updated!

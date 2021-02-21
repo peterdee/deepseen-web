@@ -3,8 +3,7 @@ import React from 'react';
 import { EmailFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
-
-import styles from '../Recovery.module.css';
+import styles from '@/styles/Auth.module.css';
 
 export default function EmailForm(props: EmailFormProps): React.ReactElement {
   const {
@@ -17,10 +16,11 @@ export default function EmailForm(props: EmailFormProps): React.ReactElement {
 
   return (
     <form
-      className="col"
+      className="flex direction-column"
       onSubmit={handleSubmit}
     >
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={!!formError}
         name="email"
@@ -33,6 +33,7 @@ export default function EmailForm(props: EmailFormProps): React.ReactElement {
         { formError }
       </div>
       <StyledButton
+        classes={['w100']}
         disabled={loading}
         isSubmit
         text="SUBMIT"

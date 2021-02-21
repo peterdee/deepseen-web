@@ -3,8 +3,7 @@ import React from 'react';
 import { SignUpFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
-
-import styles from '../SignUp.module.css';
+import styles from '@/styles/Auth.module.css';
 
 export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
   const {
@@ -26,10 +25,11 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
 
   return (
     <form
-      className="col"
+      className="flex direction-column"
       onSubmit={handleSubmit}
     >
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={firstNameError}
         name="firstName"
@@ -39,6 +39,7 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
         value={firstName}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={lastNameError}
         name="lastName"
@@ -48,6 +49,7 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
         value={lastName}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={emailError}
         name="email"
@@ -57,6 +59,7 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
         value={email}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={passwordError}
         name="password"
@@ -66,6 +69,7 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
         value={password}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={passwordConfirmationError}
         name="passwordConfirmation"
@@ -78,6 +82,7 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
         { formError }
       </div>
       <StyledButton
+        classes={['w100']}
         disabled={loading}
         isSubmit
         text="SUBMIT"

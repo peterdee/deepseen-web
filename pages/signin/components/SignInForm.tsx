@@ -3,8 +3,7 @@ import React from 'react';
 import { SignInFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
-
-import styles from '../SignIn.module.css';
+import styles from '@/styles/Auth.module.css';
 
 export default function SignInForm(props: SignInFormProps): React.ReactElement {
   const {
@@ -20,10 +19,11 @@ export default function SignInForm(props: SignInFormProps): React.ReactElement {
 
   return (
     <form
-      className="col"
+      className="flex direction-column"
       onSubmit={handleSubmit}
     >
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={emailError}
         name="email"
@@ -33,6 +33,7 @@ export default function SignInForm(props: SignInFormProps): React.ReactElement {
         value={email}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={passwordError}
         name="password"
@@ -45,6 +46,7 @@ export default function SignInForm(props: SignInFormProps): React.ReactElement {
         { formError }
       </div>
       <StyledButton
+        classes={['w100']}
         disabled={loading}
         isSubmit
         text="SUBMIT"

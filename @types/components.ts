@@ -13,6 +13,7 @@ export interface StyledButtonProps extends ButtonProps {
 }
 
 export interface StyledProps {
+  classes?: string[];
   disabled?: boolean;
   error?: boolean;
   name: string;

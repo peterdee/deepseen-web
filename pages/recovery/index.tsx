@@ -8,9 +8,9 @@ import getAuthSSP from '@/utilities/get-auth-ssp';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
 import ModalFrame from '@/components/ModalFrame';
+import styles from '@/styles/Auth.module.css';
 
 import EmailForm from './components/EmailForm';
-import styles from './Recovery.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 
@@ -81,7 +81,7 @@ export default function Recovery(): React.ReactElement {
           message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
-      <div className={`col ${styles.content}`}>
+      <div className={styles.content}>
         { linkSent && (
           <h1 className="text-center noselect">
             {`Account recovery link sent to ${email}!`}

@@ -163,6 +163,9 @@
   margin: 0;
   width: auto;
 }
+.headerRight {
+  position: relative;
+}
 .headerLogo {
   background-image: url('/assets/logo.svg');
   background-size: cover;
@@ -184,24 +187,33 @@
   animation: modal 0.25s ease-out forwards;
   background-color: var(--input-background);
   border-radius: 8px;
+  box-shadow: 0 0 8px 2px var(--accent);
   display: flex;
   flex-direction: column;
   height: 74px;
   justify-content: space-between;
   padding: 16px;
   position: absolute;
-  right: 8px;
-  top: calc(var(--header-height) + 16px);
+  right: 0;
+  top: var(--header-height);
   width: 112px;
 }
 .headerMenuItem {
   border-bottom: 2px solid var(--input-background);
   color: var(--app-text);
-  transition: border-bottom 250ms ease-in;
+  transition: border-bottom 240ms ease-in;
 }
 .headerMenuItem:hover {
   border-bottom: 2px solid var(--accent);
-  transition: border-bottom 250ms ease-out;
+  transition: border-bottom 240ms ease-out;
+}
+.headerLink {
+  border-bottom: solid 2px transparent;  
+  transition: border-bottom 240ms ease-in;
+}
+.headerLink:hover {
+  border-bottom: solid 2px var(--accent);  
+  transition: border-bottom 240ms ease-in;
 }
 .signUp {
   background-color: transparent;
@@ -209,10 +221,10 @@
   border-radius: 4px;
   color: var(--accent);
   padding: 4px 8px;
-  transition: background-color 250ms ease-out, color 250ms ease-in;
+  transition: background-color 240ms ease-out, color 240ms ease-in;
 }
 .signUp:hover {
   background-color: var(--accent);
   color: var(--app-text-dark);
-  transition: background-color 250ms ease-in, color 250ms ease-out;
+  transition: background-color 240ms ease-in, color 240ms ease-out;
 }
