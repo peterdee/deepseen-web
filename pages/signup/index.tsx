@@ -185,13 +185,13 @@ export default function SignUp(): React.ReactElement {
           passwordError={errors.password}
         />
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleHaveAccountButton}
           text="Already have an account?"
         />
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleBackButton}
           text="Back"

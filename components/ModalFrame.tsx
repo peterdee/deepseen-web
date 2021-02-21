@@ -16,7 +16,7 @@ function ErrorModal({ closeModal, message }: ErrorModalProps): React.ReactElemen
           { message }
         </div>
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           onClick={closeModal}
           text="Close"
         />

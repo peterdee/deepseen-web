@@ -2,7 +2,7 @@
 
 A web application for the [Deepseen](https://github.com/peterdee/deepseen-desktop) project
 
-Stack: [Next](https://nextjs.org), [React](https://reactjs.org), [Typescript](https://www.typescriptlang.org)
+Stack: [Next](https://nextjs.org), [React](https://reactjs.org), [Typescript](https://www.typescriptlang.org), [Bootstrap 5](https://getbootstrap.com/docs/5.0/)
 
 DEV: http://localhost:3000
 

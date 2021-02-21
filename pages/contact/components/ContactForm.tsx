@@ -4,8 +4,7 @@ import { ContactFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
 import StyledTextarea from '@/components/StyledTextarea';
-
-import styles from '../Contact.module.css';
+import styles from '@/styles/Auth.module.css';
 
 export default function EmailForm(props: ContactFormProps): React.ReactElement {
   const {
@@ -23,10 +22,11 @@ export default function EmailForm(props: ContactFormProps): React.ReactElement {
 
   return (
     <form
-      className="col"
+      className="flex direction-column"
       onSubmit={handleSubmit}
     >
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={nameError}
         name="name"
@@ -36,6 +36,7 @@ export default function EmailForm(props: ContactFormProps): React.ReactElement {
         value={name}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={emailError}
         name="email"
@@ -45,6 +46,7 @@ export default function EmailForm(props: ContactFormProps): React.ReactElement {
         value={email}
       />
       <StyledTextarea
+        classes={['w100']}
         disabled={loading}
         error={messageError}
         name="message"
@@ -56,6 +58,7 @@ export default function EmailForm(props: ContactFormProps): React.ReactElement {
         { formError }
       </div>
       <StyledButton
+        classes={['w100']}
         disabled={loading}
         isSubmit
         text="SUBMIT"

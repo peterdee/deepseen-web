@@ -152,19 +152,19 @@ export default function SignIn(): React.ReactElement {
           passwordError={errors.password}
         />
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleForgotPasswordButton}
           text="Forgot password?"
         />
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleCreateAccountButton}
           text="Don't have an account?"
         />
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleBackButton}
           text="Back"

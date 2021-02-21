@@ -38,21 +38,6 @@ a, a:visited {
   user-select: none;
 }
 
-.ml-16 {
-  margin-left: 16px;
-}
-.mr-8 {
-  margin-right: 8px;
-}
-.mr-16 {
-  margin-right: 16px;
-}
-.mt-16 {
-  margin-top: 16px;
-}
-.text-center {
-  text-align: center;
-}
 .w100 {
   width: 100%;
 }
