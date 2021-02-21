@@ -164,7 +164,7 @@ export default function SignUp(): React.ReactElement {
           message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
-      <div className={`col ${styles.content}`}>
+      <div className={styles.content}>
         <div className={`${styles.header} noselect`}>
           SIGN UP
         </div>

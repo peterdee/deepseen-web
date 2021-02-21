@@ -1,15 +1,18 @@
 .content {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  width: 400px;
+  max-width: 400px;
+  min-height: calc(100vh - var(--footer-height));
+  min-width: 340px;
 }
 .header {
   color: var(--accent);
   font-size: 32px;
   font-weight: bold;
   letter-spacing: 4px;
-  margin-bottom: 16px;
+  margin: 16px 0;
   text-align: center;
 }
 .errorContainer {
