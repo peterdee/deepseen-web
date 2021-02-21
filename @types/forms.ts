@@ -6,6 +6,15 @@ export interface FormProps {
   handleSubmit: (event: React.FormEvent) => Promise<any>;
   loading: boolean;
 }
+export interface ChangePasswordFormProps extends FormProps {
+  confirmNewPassword: string;
+  confirmNewPasswordError: boolean;
+  newPassword: string;
+  newPasswordError: boolean;
+  oldPassword: string;
+  oldPasswordError: boolean;
+  passwordUpdated: string;
+}
 
 export interface ContactFormProps extends FormProps {
   email: string;

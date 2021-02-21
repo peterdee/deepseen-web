@@ -60,12 +60,13 @@ export default function SignIn(): React.ReactElement {
   const handleSubmit = async (event: React.FormEvent): Promise<any> => {
     event.preventDefault();
 
-    const trimmed = {
-      email: data.email.trim(),
-      password: data.password.trim(),
-    };
-    if (!(trimmed.email && trimmed.password)) {
-      const inputErrors = Object.keys(errors).reduce(
+    const keys = Object.keys(data);
+    const trimmed = keys.reduce(
+      (obj, key) => ({ ...obj, [key]: data[key].trim() }),
+      {} as SignInDataCollection<string>,
+    );
+    if (Object.values(trimmed).includes('')) {
+      const inputErrors = keys.reduce(
         (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
         {} as SignInDataCollection<boolean>,
       );
@@ -91,7 +92,6 @@ export default function SignIn(): React.ReactElement {
         url: `${BACKEND_URL}/api/auth/signin`,
       });
 
-      setLoading(false);
       const { data: { data: responseData = {} } = {} } = response;
       if (!(responseData.token && responseData.user)) {
         return setFormError(ERROR_MESSAGES.oops);
@@ -106,7 +106,6 @@ export default function SignIn(): React.ReactElement {
 
       return router.push('/home');
     } catch (error) {
-      setLoading(false);
       const { response: { data: errorData = {} } = {} } = error;
       if (errorData.info && errorData.status) {
         const { info, status } = errorData;
@@ -123,6 +122,8 @@ export default function SignIn(): React.ReactElement {
       }
 
       return setFormError(ERROR_MESSAGES.oops);
+    } finally {
+      setLoading(false);
     }
   };
 

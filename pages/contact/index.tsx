@@ -17,6 +17,7 @@ import styles from '@/styles/Auth.module.css';
 import { User } from '@/@types/user';
 
 import ContactForm from './components/ContactForm';
+import contactStyles from './Contact.module.css';
 
 interface DataCollection<T> {
   email: T;
@@ -81,13 +82,13 @@ export default function Contact({
   const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
 
-    const trimmedValues = {
-      email: data.email.trim(),
-      message: data.message.trim(),
-      name: data.name.trim(),
-    };
-    if (!(trimmedValues.email && trimmedValues.message && trimmedValues.name)) {
-      const inputErrors = Object.keys(errors).reduce(
+    const keys = Object.keys(data);
+    const trimmedValues = keys.reduce(
+      (obj, key) => ({ ...obj, [key]: data[key].trim() }),
+      {} as DataCollection<string>,
+    );
+    if (Object.values(trimmedValues).includes('')) {
+      const inputErrors = keys.reduce(
         (obj, key) => ({ ...obj, [key]: !trimmedValues[key] }),
         {} as DataCollection<boolean>,
       );
@@ -104,11 +105,8 @@ export default function Contact({
         url: `${BACKEND_URL}/api/contact`,
       });
 
-      setLoading(false);
       return setMessageSent(true);
     } catch (error) {
-      setLoading(false);
-
       const { response: { data: errorData = {} } = {} } = error;
       const { status = null } = errorData;
       if (status && status === 429) {
@@ -117,6 +115,8 @@ export default function Contact({
       }
 
       return setFormError(ERROR_MESSAGES.oops);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,7 +132,7 @@ export default function Contact({
           message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
-      <div className={styles.content}>
+      <div className={`${styles.content} ${contactStyles.wrap}`}>
         { messageSent && (
           <h1 className="text-center noselect">
             Your message has been sent!

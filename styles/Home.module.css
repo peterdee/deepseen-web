@@ -1,0 +1,22 @@
+/* This module is used for the Home-related pages */
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: calc(100vh - var(--footer-height) - var(--header-height) - 16px);
+}
+.homeHeader {
+  color: var(--accent);
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin: 16px 0;
+}
+.homeErrorContainer, .homeSuccessContainer {
+  color: var(--error);
+  height: 20px;
+  margin: 8px 0 16px 0;
+}
+.homeSuccessContainer {
+  color: var(--accent);
+}

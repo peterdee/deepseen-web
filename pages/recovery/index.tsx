@@ -51,11 +51,8 @@ export default function Recovery(): React.ReactElement {
         url: `${BACKEND_URL}/api/auth/recovery/send`,
       });
 
-      setLoading(false);
       return setLinkSent(true);
     } catch (error) {
-      setLoading(false);
-
       const { response: { data = {} } = {} } = error;
       const { status = null } = data;
       if (status && status === 401) {
@@ -67,6 +64,8 @@ export default function Recovery(): React.ReactElement {
       }
 
       return setFormError(ERROR_MESSAGES.oops);
+    } finally {
+      setLoading(false);
     }
   };
 
