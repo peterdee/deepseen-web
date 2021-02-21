@@ -3,8 +3,7 @@ import React from 'react';
 import { SignUpFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
-
-import styles from '../SignUp.module.css';
+import styles from '@/styles/Auth.module.css';
 
 export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
   const {

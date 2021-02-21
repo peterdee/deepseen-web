@@ -1,3 +1,4 @@
+/* This module is used for the Auth pages */
 .content {
   display: flex;
   flex-direction: column;
@@ -24,5 +25,10 @@
 .link {
   color: var(--accent);
   margin-top: 16px;
+  text-align: center;
+}
+.result {
+  color: var(--app-text);
+  font-size: 16px;
   text-align: center;
 }

@@ -17,10 +17,10 @@ import { saveData } from '@/utilities/data-actions';
 import saveToken from '@/utilities/save-token';
 import setCookie from '@/utilities/set-cookie';
 import { SignInDataCollection } from '@/@types/signin';
+import styles from '@/styles/Auth.module.css';
 import { User } from '@/@types/user';
 
 import SignInForm from './components/SignInForm';
-import styles from './SignIn.module.css';
 
 export const getServerSideProps: GetServerSideProps = (context): any => getAuthSSP(context);
 

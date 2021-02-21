@@ -3,8 +3,7 @@ import React, { memo } from 'react';
 import { NewPasswordFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
-
-import styles from '../Validate.module.css';
+import styles from '@/styles/Auth.module.css';
 
 function NewPasswordForm(props: NewPasswordFormProps): React.ReactElement {
   const {
@@ -20,10 +19,11 @@ function NewPasswordForm(props: NewPasswordFormProps): React.ReactElement {
 
   return (
     <form
-      className="col"
+      className="flex direction-column"
       onSubmit={handleSubmit}
     >
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={passwordError}
         name="password"
@@ -33,6 +33,7 @@ function NewPasswordForm(props: NewPasswordFormProps): React.ReactElement {
         value={password}
       />
       <StyledInput
+        classes={['w100']}
         disabled={loading}
         error={passwordConfirmationError}
         name="passwordConfirmation"
@@ -45,6 +46,7 @@ function NewPasswordForm(props: NewPasswordFormProps): React.ReactElement {
         { formError }
       </div>
       <StyledButton
+        classes={['w100']}
         disabled={loading}
         isSubmit
         text="SUBMIT"

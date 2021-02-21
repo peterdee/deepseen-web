@@ -3,8 +3,7 @@ import React from 'react';
 import { SignInFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
-
-import styles from '../SignIn.module.css';
+import styles from '@/styles/Auth.module.css';
 
 export default function SignInForm(props: SignInFormProps): React.ReactElement {
   const {
