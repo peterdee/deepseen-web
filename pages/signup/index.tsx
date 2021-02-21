@@ -65,16 +65,13 @@ export default function SignUp(): React.ReactElement {
   const handleSubmit = async (event: React.FormEvent): Promise<any> => {
     event.preventDefault();
 
-    const trimmed = {
-      email: data.email.trim(),
-      firstName: data.firstName.trim(),
-      lastName: data.lastName.trim(),
-      password: data.password.trim(),
-      passwordConfirmation: data.passwordConfirmation.trim(),
-    };
-    if (!(trimmed.email && trimmed.firstName && trimmed.lastName
-      && trimmed.password && trimmed.passwordConfirmation)) {
-      const inputErrors = Object.keys(errors).reduce(
+    const keys = Object.keys(data);
+    const trimmed = keys.reduce(
+      (obj, key) => ({ ...obj, [key]: data[key].trim() }),
+      {} as SignUpDataCollection<string>,
+    );
+    if (Object.values(trimmed).includes('')) {
+      const inputErrors = keys.reduce(
         (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
         {} as SignUpDataCollection<boolean>,
       );
@@ -111,7 +108,6 @@ export default function SignUp(): React.ReactElement {
         url: `${BACKEND_URL}/api/auth/signup`,
       });
 
-      setLoading(false);
       const { data: { data: responseData = {} } = {} } = response;
       if (!(responseData.token && responseData.user)) {
         return setFormError(ERROR_MESSAGES.oops);
@@ -126,7 +122,6 @@ export default function SignUp(): React.ReactElement {
 
       return router.push('/home');
     } catch (error) {
-      setLoading(false);
       const { response: { data: errorData = {} } = {} } = error;
       if (errorData.info && errorData.status) {
         const { info, status } = errorData;
@@ -150,6 +145,8 @@ export default function SignUp(): React.ReactElement {
       }
 
       return setFormError(ERROR_MESSAGES.oops);
+    } finally {
+      setLoading(false);
     }
   };
 

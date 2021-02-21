@@ -6,7 +6,7 @@ import StyledInput from '@/components/StyledInput';
 import StyledTextarea from '@/components/StyledTextarea';
 import styles from '@/styles/Auth.module.css';
 
-export default function EmailForm(props: ContactFormProps): React.ReactElement {
+export default function ContactForm(props: ContactFormProps): React.ReactElement {
   const {
     email,
     emailError,

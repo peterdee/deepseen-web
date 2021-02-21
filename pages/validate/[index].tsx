@@ -47,21 +47,21 @@ export default function Validate(): React.ReactElement {
   const handleSubmit = async (event: React.FormEvent): Promise<any> => {
     event.preventDefault();
 
-    const trimmed = {
-      password: data.password.trim(),
-      passwordConfirmation: data.passwordConfirmation.trim(),
-    };
-
-    if (!(trimmed.password && trimmed.passwordConfirmation)) {
-      const inputErrors = Object.keys(errors).reduce(
-        (obj, key) => ({ ...obj, [key]: !trimmed[key] }),
+    const keys = Object.keys(data);
+    const trimmedValues = keys.reduce(
+      (obj, key) => ({ ...obj, [key]: data[key].trim() }),
+      {} as ValidateDataCollection<string>,
+    );
+    if (Object.values(trimmedValues).includes('')) {
+      const inputErrors = keys.reduce(
+        (obj, key) => ({ ...obj, [key]: !trimmedValues[key] }),
         {} as ValidateDataCollection<boolean>,
       );
       setErrors(inputErrors);
       return setFormError(ERROR_MESSAGES.pleaseProvideData);
     }
 
-    if (trimmed.password !== trimmed.passwordConfirmation) {
+    if (trimmedValues.password !== trimmedValues.passwordConfirmation) {
       setErrors({
         password: true,
         passwordConfirmation: true,
@@ -75,17 +75,14 @@ export default function Validate(): React.ReactElement {
       await axios({
         data: {
           code,
-          password: trimmed.password,
+          password: trimmedValues.password,
         },
         method: 'POST',
         url: `${BACKEND_URL}/api/auth/recovery/validate`,
       });
 
-      setLoading(false);
       return setCodeAccepted(true);
     } catch (error) {
-      setLoading(false);
-
       const { response: { data: errorData = {} } = {} } = error;
       const { status = null } = errorData;
       if (status && status === 400) {
@@ -97,6 +94,8 @@ export default function Validate(): React.ReactElement {
       }
 
       return setFormError(ERROR_MESSAGES.oops);
+    } finally {
+      setLoading(false);
     }
   };
 
