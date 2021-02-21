@@ -13,7 +13,6 @@ function NotFound(): React.ReactElement {
         Page not found!
       </h1>
       <LinkButton
-        classes={['mt-16']}
         onClick={() => router.push('/')}
         text="Back"
       />

@@ -13,10 +13,10 @@ import Header from '@/components/Header';
 import LinkButton from '@/components/LinkButton';
 import Loader from '@/components/Loader';
 import ModalFrame from '@/components/ModalFrame';
+import styles from '@/styles/Auth.module.css';
 import { User } from '@/@types/user';
 
 import ContactForm from './components/ContactForm';
-// import styles from './Contact.module.css';
 
 interface DataCollection<T> {
   email: T;
@@ -132,7 +132,7 @@ export default function Contact({
           message={ERROR_MESSAGES.tooManyRequests}
         />
       ) }
-      <div className="col content">
+      <div className={styles.content}>
         { messageSent && (
           <h1 className="text-center noselect">
             Your message has been sent!
@@ -140,7 +140,7 @@ export default function Contact({
         ) }
         { !messageSent && (
           <>
-            <div className="content-header noselect">
+            <div className={`${styles.header} noselect`}>
               CONTACT
             </div>
             <ContactForm
@@ -158,7 +158,7 @@ export default function Contact({
           </>
         ) }
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleBackButton}
           text="Back"

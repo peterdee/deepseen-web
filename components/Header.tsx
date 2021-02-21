@@ -73,12 +73,12 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
           { ' ' }
         </button>
         <LinkButton
-          classes={['ml-16', styles.headerLink]}
+          classes={['ms-3', styles.headerLink]}
           onClick={handleProduct}
           text="PRODUCT"
         />
         <LinkButton
-          classes={['ml-16', styles.headerLink]}
+          classes={['ms-3', styles.headerLink]}
           onClick={handleDownload}
           text="DOWNLOAD"
         />
@@ -105,7 +105,7 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
         { !authenticated && (
           <>
             <LinkButton
-              classes={['mr-16', styles.headerLink]}
+              classes={['me-3', styles.headerLink]}
               onClick={handleSignIn}
               text="SIGN IN"
             />

@@ -6,25 +6,25 @@ function Footer(): React.ReactElement {
   return (
     <footer className={`${styles.footer} noselect`}>
       <span>{ `Deepseen © ${new Date().getFullYear()}` }</span>
-      <span className="ml-16 mr-16">|</span>
+      <span className="mx-3">|</span>
       <span>
         <a href="https://github.com/peterdee">
           Peter Dyumin
         </a>
       </span>
-      <span className="ml-16 mr-16">|</span>
+      <span className="mx-3">|</span>
       <span>
         <a href="/contact">
           Contact
         </a>
       </span>
-      <span className="ml-16 mr-16">|</span>
+      <span className="mx-3">|</span>
       <span>
         <a href="/about">
           About Deepseen
         </a>
       </span>
-      <span className="ml-16 mr-16">|</span>
+      <span className="mx-3">|</span>
       <span>
         <a href="/privacy">
           Privacy Policy

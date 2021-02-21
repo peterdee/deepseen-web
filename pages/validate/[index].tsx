@@ -129,7 +129,7 @@ export default function Validate(): React.ReactElement {
           </>
         ) }
         <LinkButton
-          classes={['mt-16']}
+          classes={['mt-3']}
           disabled={loading}
           onClick={handleBackButton}
           text="Back"

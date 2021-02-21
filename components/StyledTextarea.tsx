@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 
 function StyledTextArea(props: StyledProps): React.ReactElement {
   const {
+    classes,
     disabled,
     error,
     name,
@@ -19,7 +20,7 @@ function StyledTextArea(props: StyledProps): React.ReactElement {
 
   return (
     <textarea
-      className={`${styles.textarea} ${error ? styles.inputError : ''}`}
+      className={`${styles.textarea} ${classes.join(' ')} ${error ? styles.inputError : ''}`}
       disabled={disabled}
       name={name}
       onChange={handleInput}
@@ -30,6 +31,7 @@ function StyledTextArea(props: StyledProps): React.ReactElement {
 }
 
 StyledTextArea.defaultProps = {
+  classes: [],
   disabled: false,
   error: false,
   placeholder: '',
