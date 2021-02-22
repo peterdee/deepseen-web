@@ -7,17 +7,16 @@ import axios from 'axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 
-import {
-  BACKEND_URL,
-  ERROR_MESSAGES,
-} from '@/configuration/index';
+import { BACKEND_URL, ERROR_MESSAGES } from '@/configuration/index';
 import deleteCookie from '@/utilities/delete-cookie';
 import deleteToken from '@/utilities/delete-token';
 import getProtectedSSP from '@/utilities/get-protected-ssp';
 import Header from '@/components/Header';
+import Loader from '@/components/Loader';
 import styles from '@/styles/Home.module.css';
 
 import ChangePasswordForm from './components/ChangePasswordForm';
+import changePasswordStyles from './ChangePassword.module.css';
 
 interface DataCollection<T> {
   confirmNewPassword: T;
@@ -44,10 +43,9 @@ export default function ChangePassword({
   });
   const [formError, setFormError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [passwordUpdated, setPasswordUpdated] = useState<string>('');
 
   const handleUnauthorized = useCallback(
-    () => {
+    (): void => {
       deleteCookie();
       deleteToken();
       router.push('/signin');
@@ -56,7 +54,7 @@ export default function ChangePassword({
   );
 
   useEffect(
-    () => {
+    (): void => {
       if (!token) {
         handleUnauthorized();
       }
@@ -73,15 +71,13 @@ export default function ChangePassword({
       ...state,
       [name]: false,
     }));
-    setFormError('');
-    setPasswordUpdated('');
+    return setFormError('');
   };
 
   const handleSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
 
     setFormError('');
-    setPasswordUpdated('');
 
     const keys = Object.keys(data);
     const trimmedValues = keys.reduce(
@@ -95,6 +91,15 @@ export default function ChangePassword({
       );
       setErrors(inputErrors);
       return setFormError(ERROR_MESSAGES.pleaseProvideData);
+    }
+
+    if (trimmedValues.confirmNewPassword !== trimmedValues.newPassword) {
+      setErrors((state) => ({
+        ...state,
+        confirmNewPassword: true,
+        newPassword: true,
+      }));
+      return setFormError(ERROR_MESSAGES.invalidPasswordConfirmation);
     }
 
     setLoading(true);
@@ -112,8 +117,11 @@ export default function ChangePassword({
         url: `${BACKEND_URL}/api/user/password`,
       });
 
-      return setPasswordUpdated('Password updated!');
+      setLoading(false);
+      return handleUnauthorized();
     } catch (error) {
+      setLoading(false);
+
       // TODO: error handling
       const { response: { data: errorData = {} } = {} } = error;
       const { status = null } = errorData;
@@ -123,18 +131,25 @@ export default function ChangePassword({
       }
 
       return setFormError(ERROR_MESSAGES.oops);
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <>
+      { loading && (
+        <Loader />
+      ) }
       <Header authenticated={!!token} />
       <div className={styles.homeContainer}>
         <h1 className={`${styles.homeHeader} noselect`}>
           Change Password
         </h1>
+        <p className={`${changePasswordStyles.warning} noselect`}>
+          Changing the password will sign you out on all of the devices!
+        </p>
+        <p className={`${changePasswordStyles.warning} noselect`}>
+          Already existing sessions will not be affected.
+        </p>
         <ChangePasswordForm
           confirmNewPassword={data.confirmNewPassword}
           confirmNewPasswordError={errors.confirmNewPassword}
@@ -146,7 +161,6 @@ export default function ChangePassword({
           newPasswordError={errors.newPassword}
           oldPassword={data.oldPassword}
           oldPasswordError={errors.oldPassword}
-          passwordUpdated={passwordUpdated}
         />
       </div>
     </>

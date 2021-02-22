@@ -17,7 +17,6 @@ export default function ChangePasswordForm(props: ChangePasswordFormProps): Reac
     newPasswordError,
     oldPassword,
     oldPasswordError,
-    passwordUpdated,
   } = props;
 
   return (
@@ -55,16 +54,9 @@ export default function ChangePasswordForm(props: ChangePasswordFormProps): Reac
         type="password"
         value={confirmNewPassword}
       />
-      { passwordUpdated && (
-        <div className={`${styles.homeSuccessContainer} noselect`}>
-          { passwordUpdated }
-        </div>
-      ) }
-      { !passwordUpdated && (
-        <div className={`${styles.homeErrorContainer} noselect`}>
-          { formError }
-        </div>
-      ) }
+      <div className={`${styles.homeErrorContainer} noselect`}>
+        { formError }
+      </div>
       <StyledButton
         disabled={loading}
         isSubmit

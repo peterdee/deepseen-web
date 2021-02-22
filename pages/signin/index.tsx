@@ -103,9 +103,11 @@ export default function SignIn(): React.ReactElement {
       setCookie(token);
       saveData<User>('user', user);
       saveToken(token);
+      setLoading(false);
 
       return router.push('/home');
     } catch (error) {
+      setLoading(false);
       const { response: { data: errorData = {} } = {} } = error;
       if (errorData.info && errorData.status) {
         const { info, status } = errorData;
@@ -122,8 +124,6 @@ export default function SignIn(): React.ReactElement {
       }
 
       return setFormError(ERROR_MESSAGES.oops);
-    } finally {
-      setLoading(false);
     }
   };
 
