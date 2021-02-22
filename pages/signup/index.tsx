@@ -103,6 +103,7 @@ export default function SignUp(): React.ReactElement {
           firstName: trimmed.firstName,
           lastName: trimmed.lastName,
           password: trimmed.password,
+          signedAgreement: true, // TODO: create a switch & additional logic for that
         },
         method: 'POST',
         url: `${BACKEND_URL}/api/auth/signup`,
@@ -119,9 +120,11 @@ export default function SignUp(): React.ReactElement {
       setCookie(token);
       saveData<User>('user', user);
       saveToken(token);
+      setLoading(false);
 
       return router.push('/home');
     } catch (error) {
+      setLoading(false);
       const { response: { data: errorData = {} } = {} } = error;
       if (errorData.info && errorData.status) {
         const { info, status } = errorData;
@@ -145,8 +148,6 @@ export default function SignUp(): React.ReactElement {
       }
 
       return setFormError(ERROR_MESSAGES.oops);
-    } finally {
-      setLoading(false);
     }
   };
 

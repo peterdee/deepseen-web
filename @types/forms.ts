@@ -13,7 +13,6 @@ export interface ChangePasswordFormProps extends FormProps {
   newPasswordError: boolean;
   oldPassword: string;
   oldPasswordError: boolean;
-  passwordUpdated: string;
 }
 
 export interface ContactFormProps extends FormProps {
