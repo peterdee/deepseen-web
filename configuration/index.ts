@@ -18,6 +18,7 @@ export const ERROR_MESSAGES = {
   invalidPasswordConfirmation: 'Password confirmation is invalid!',
   invalidRecoveryLink: 'Recovery link is invalid!',
   missingData: 'Missing required data!',
+  oldPasswordIsInvalid: 'Old password is invalid!',
   oops: 'Oops! Something went wrong!',
   pleaseProvideData: 'Please provide the necessary data!',
   providedInvalidData: 'Provided data is invalid!',
@@ -38,9 +39,12 @@ export const EVENTS = {
 export const RESPONSE_MESSAGES = {
   accessDenied: 'ACCESS_DENIED',
   emailAlreadyInUse: 'EMAIL_ALREADY_IN_USE',
+  imageRecordNotFound: 'IMAGE_RECORD_NOT_FOUND',
   internalServerError: 'INTERNAL_SERVER_ERROR',
   invalidData: 'INVALID_DATA',
   missingData: 'MISSING_DATA',
+  oldPasswordIsInvalid: 'OLD_PASSWORD_IS_INVALID',
+  passwordRecordNotFound: 'PASSWORD_RECORD_NOT_FOUND',
   tooManyRequests: 'TOO_MANY_REQUESTS',
 } as const;
 
