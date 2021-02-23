@@ -7,7 +7,7 @@ import axios from 'axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL, ERROR_MESSAGES } from '@/configuration/index';
+import { BACKEND_URL, ERROR_MESSAGES, RESPONSE_MESSAGES } from '@/configuration/index';
 import deleteCookie from '@/utilities/delete-cookie';
 import deleteToken from '@/utilities/delete-token';
 import getProtectedSSP from '@/utilities/get-protected-ssp';
@@ -122,12 +122,21 @@ export default function ChangePassword({
     } catch (error) {
       setLoading(false);
 
-      // TODO: error handling
       const { response: { data: errorData = {} } = {} } = error;
-      const { status = null } = errorData;
-      if (status && status === 429) {
-        setFormError('');
-        // return setShowModal(true);
+      const { info = '' } = errorData;
+      if (info === RESPONSE_MESSAGES.missingData) {
+        return setFormError(ERROR_MESSAGES.missingData);
+      }
+      if (info === RESPONSE_MESSAGES.imageRecordNotFound
+        || info === RESPONSE_MESSAGES.passwordRecordNotFound) {
+        return handleUnauthorized();
+      }
+      if (info === RESPONSE_MESSAGES.oldPasswordIsInvalid) {
+        setErrors((state) => ({
+          ...state,
+          oldPassword: true,
+        }));
+        return setFormError(ERROR_MESSAGES.oldPasswordIsInvalid);
       }
 
       return setFormError(ERROR_MESSAGES.oops);
