@@ -31,7 +31,9 @@ function Header({ authenticated }: HeaderProps): React.ReactElement {
     (): void => {
       if (authenticated) {
         const user = getData<User>('user');
-        setUserName(`${user.firstName || ''} ${user.lastName || ''}`);
+        if (user) {
+          setUserName(`${user.firstName || ''} ${user.lastName || ''}`);
+        }
       }
     },
     [],

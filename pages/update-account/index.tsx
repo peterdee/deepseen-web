@@ -7,13 +7,19 @@ import axios from 'axios';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 
-import { BACKEND_URL, ERROR_MESSAGES, RESPONSE_MESSAGES } from '@/configuration/index';
+import {
+  BACKEND_URL,
+  ERROR_MESSAGES,
+  RESPONSE_MESSAGES,
+} from '@/configuration/index';
 import deleteCookie from '@/utilities/delete-cookie';
 import deleteToken from '@/utilities/delete-token';
+import { getData } from '@/utilities/data-actions';
 import getProtectedSSP from '@/utilities/get-protected-ssp';
 import Header from '@/components/Header';
 import Loader from '@/components/Loader';
 import styles from '@/styles/Home.module.css';
+import { User } from '@/@types/user';
 
 import UpdateAccountForm from './components/UpdateAccountForm';
 
@@ -53,6 +59,14 @@ export default function UpdateAccount({
     (): void => {
       if (!token) {
         handleUnauthorized();
+      } else {
+        const user = getData<User>('user');
+        if (user) {
+          setData({
+            firstName: user.firstName,
+            lastName: user.lastName,
+          });
+        }
       }
     },
     [],
@@ -70,7 +84,7 @@ export default function UpdateAccount({
     return setFormError('');
   };
 
-  const handleSubmit = async (event: React.FormEvent): Promise<void> => {
+  const handleSubmit = async (event: React.FormEvent): Promise<boolean | void> => {
     event.preventDefault();
 
     setFormError('');
@@ -105,7 +119,7 @@ export default function UpdateAccount({
       });
 
       setLoading(false);
-      return handleUnauthorized();
+      return router.push('/home');
     } catch (error) {
       setLoading(false);
 
@@ -113,17 +127,6 @@ export default function UpdateAccount({
       const { info = '' } = errorData;
       if (info === RESPONSE_MESSAGES.missingData) {
         return setFormError(ERROR_MESSAGES.missingData);
-      }
-      if (info === RESPONSE_MESSAGES.imageRecordNotFound
-        || info === RESPONSE_MESSAGES.passwordRecordNotFound) {
-        return handleUnauthorized();
-      }
-      if (info === RESPONSE_MESSAGES.oldPasswordIsInvalid) {
-        setErrors((state) => ({
-          ...state,
-          oldPassword: true,
-        }));
-        return setFormError(ERROR_MESSAGES.oldPasswordIsInvalid);
       }
 
       return setFormError(ERROR_MESSAGES.oops);

@@ -54,3 +54,10 @@ export interface SignUpFormProps extends FormProps {
   passwordConfirmationError: boolean;
   passwordError: boolean;
 }
+
+export interface UpdateAccountFormProps extends FormProps {
+  firstName: string;
+  firstNameError: boolean;
+  lastName: string;
+  lastNameError: boolean;
+}

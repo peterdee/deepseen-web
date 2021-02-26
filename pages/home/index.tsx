@@ -316,10 +316,10 @@ export default function Home({
           Change password
         </button>
         <button
-          onClick={() => router.push('/update-profile')}
+          onClick={() => router.push('/update-account')}
           type="button"
         >
-          Update profile
+          Update account
         </button>
         <button
           onClick={signOut}
