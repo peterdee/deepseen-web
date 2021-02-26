@@ -1,22 +1,20 @@
 import React from 'react';
 
-import { ChangePasswordFormProps } from '@/@types/forms';
 import StyledButton from '@/components/StyledButton';
 import StyledInput from '@/components/StyledInput';
 import styles from '@/styles/Home.module.css';
+import { UpdateAccountFormProps } from '@/@types/forms';
 
-export default function ChangePasswordForm(props: ChangePasswordFormProps): React.ReactElement {
+export default function UpdateAccountForm(props: UpdateAccountFormProps): React.ReactElement {
   const {
-    confirmNewPassword,
-    confirmNewPasswordError,
+    firstName,
+    firstNameError,
     formError,
     handleInput,
     handleSubmit,
+    lastName,
+    lastNameError,
     loading,
-    newPassword,
-    newPasswordError,
-    oldPassword,
-    oldPasswordError,
   } = props;
 
   return (
@@ -27,32 +25,22 @@ export default function ChangePasswordForm(props: ChangePasswordFormProps): Reac
       <StyledInput
         classes={['w100']}
         disabled={loading}
-        error={oldPasswordError}
-        name="oldPassword"
+        error={firstNameError}
+        name="firstName"
         onChange={handleInput}
-        placeholder="Old Password"
-        type="password"
-        value={oldPassword}
+        placeholder="First name"
+        type="text"
+        value={firstName}
       />
       <StyledInput
         classes={['w100']}
         disabled={loading}
-        error={newPasswordError}
-        name="newPassword"
+        error={lastNameError}
+        name="lastName"
         onChange={handleInput}
-        placeholder="New Password"
-        type="password"
-        value={newPassword}
-      />
-      <StyledInput
-        classes={['w100']}
-        disabled={loading}
-        error={confirmNewPasswordError}
-        name="confirmNewPassword"
-        onChange={handleInput}
-        placeholder="Confirm New Password"
-        type="password"
-        value={confirmNewPassword}
+        placeholder="Last name"
+        type="text"
+        value={lastName}
       />
       <div className={`${styles.homeErrorContainer} noselect`}>
         { formError }
