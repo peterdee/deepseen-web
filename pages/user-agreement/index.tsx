@@ -13,11 +13,14 @@ export default function UserAgreement({
   return (
     <>
       <Header authenticated={authenticated} />
-      <div className={styles.homeContainer}>
-        <h1 className={`${styles.homeHeader} noselect`}>
+      <div className={`${styles.homeContainer} noselect`}>
+        <h1 className={styles.homeHeader}>
           User Agreement
         </h1>
-        <div className="mt-2">
+        <div className="mt-2 fw-bold">
+          Data usage acknowledgement
+        </div>
+        <div>
           This application collects the following user data:
           <ul>
             <li>
@@ -31,7 +34,7 @@ export default function UserAgreement({
             </li>
           </ul>
         </div>
-        <div className="mt-1">
+        <div>
           Email address is required for the authorization purposes.
         </div>
         <div>
@@ -39,7 +42,7 @@ export default function UserAgreement({
           a real one.
         </div>
         <div>
-          If you use the invalid email address, you will not be able to recover your account
+          If you use an invalid email address, you will not be able to recover your account
           if you lose an access to it.
         </div>
         <div className="mt-1">
@@ -52,6 +55,20 @@ export default function UserAgreement({
         <div>
           Registered users can delete their account if necessary at any time, this function
           is available on the Home page.
+        </div>
+        <div className="mt-2 fw-bold">
+          Service usage acknowledgement
+        </div>
+        <div>
+          Deepseen and its author does not provide any guarantees that the services are going
+          to work properly.
+        </div>
+        <div>
+          The author of Deepseen does not get any financial gains from Deepseen.
+        </div>
+        <div>
+          All of the Deepseen services are being deployed to the free environments, this can
+          lead to the issues with the Deepseen services.
         </div>
       </div>
     </>

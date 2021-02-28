@@ -3,9 +3,11 @@ import React, { memo } from 'react';
 import styles from './styles.module.css';
 
 function Footer(): React.ReactElement {
+  const year = new Date().getFullYear();
+
   return (
     <footer className={`${styles.footer} noselect`}>
-      <span>{ `Deepseen © ${new Date().getFullYear()}` }</span>
+      <span>{ `Deepseen © ${year}` }</span>
       <span className="mx-3">|</span>
       <span>
         <a href="https://github.com/peterdee">
@@ -26,8 +28,8 @@ function Footer(): React.ReactElement {
       </span>
       <span className="mx-3">|</span>
       <span>
-        <a href="/privacy">
-          Privacy Policy
+        <a href="/user-agreement">
+          User Agreement
         </a>
       </span>
     </footer>
