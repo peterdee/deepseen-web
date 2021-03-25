@@ -78,6 +78,9 @@ export default function SignUpForm(props: SignUpFormProps): React.ReactElement {
         type="password"
         value={passwordConfirmation}
       />
+      <div className={styles.link}>
+        <a href="/user-agreement">User Agreement</a>
+      </div>
       <div className={`${styles.errorContainer} noselect`}>
         { formError }
       </div>
